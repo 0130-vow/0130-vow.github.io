@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Blog, FE">
+  <meta name="keywords" content="总结,css,伪类,伪元素,">
 
 
 
@@ -79,16 +79,18 @@
 
 
 
-<meta name="description" content="人生得意须尽欢">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Shawn&#39;s Blogs">
-<meta property="og:url" content="https://esappear.github.io/archives/index.html">
+<meta name="description" content="伪类和伪元素应该是CSS中常见的两个概念了，两者区别在于前者等效于一个类，后者等效于一个元素，伪类的效果可以通过添加一个类来实现，伪元素的效果则需要通过添加一个元素才能实现。伪类使用时用:，伪元素使用时用::。本来这两个概念在日常工作中都是很平安的，直到发现自己写过的input[type=&amp;quot;checkbox&amp;quot;][checked=&amp;quot;checked&amp;quot;]对chec">
+<meta name="keywords" content="总结,css,伪类,伪元素">
+<meta property="og:type" content="article">
+<meta property="og:title" content="总结下那些常用的伪类和伪元素">
+<meta property="og:url" content="https://esappear.github.io/2017/03/28/pseudo-class/index.html">
 <meta property="og:site_name" content="Shawn&#39;s Blogs">
-<meta property="og:description" content="人生得意须尽欢">
+<meta property="og:description" content="伪类和伪元素应该是CSS中常见的两个概念了，两者区别在于前者等效于一个类，后者等效于一个元素，伪类的效果可以通过添加一个类来实现，伪元素的效果则需要通过添加一个元素才能实现。伪类使用时用:，伪元素使用时用::。本来这两个概念在日常工作中都是很平安的，直到发现自己写过的input[type=&amp;quot;checkbox&amp;quot;][checked=&amp;quot;checked&amp;quot;]对chec">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-09-14T08:31:20.592Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Shawn&#39;s Blogs">
-<meta name="twitter:description" content="人生得意须尽欢">
+<meta name="twitter:title" content="总结下那些常用的伪类和伪元素">
+<meta name="twitter:description" content="伪类和伪元素应该是CSS中常见的两个概念了，两者区别在于前者等效于一个类，后者等效于一个元素，伪类的效果可以通过添加一个类来实现，伪元素的效果则需要通过添加一个元素才能实现。伪类使用时用:，伪元素使用时用::。本来这两个概念在日常工作中都是很平安的，直到发现自己写过的input[type=&amp;quot;checkbox&amp;quot;][checked=&amp;quot;checked&amp;quot;]对chec">
 
 
 
@@ -118,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="https://esappear.github.io/archives/">
+  <link rel="canonical" href="https://esappear.github.io/2017/03/28/pseudo-class/">
 
 
 
 
 
-  <title>归档 | Shawn's Blogs</title>
+  <title>总结下那些常用的伪类和伪元素 | Shawn's Blogs</title>
   
 
 
@@ -162,7 +164,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -268,390 +270,220 @@
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
 
-      <span class="archive-page-counter">
-        
-        
-         
-        
-        OK! 目前共计 42 篇日志。 继续努力。
-      </span>
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://esappear.github.io/2017/03/28/pseudo-class/">
 
-      
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shawn">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/13843099">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Shawn's Blogs">
+    </span>
+
+    
+      <header class="post-header">
 
         
         
+          <h1 class="post-title" itemprop="name headline">总结下那些常用的伪类和伪元素</h1>
         
 
-        
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-28T23:12:44+00:00">
+                2017-03-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2018">2018</h1>
-          </div>
-        
-        
 
-        
+          
+            
+          
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+          
+          
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/12/02/apache-1/" itemprop="url">
-              
-                <span itemprop="name">apache中的代理</span>
-              
-            </a>
-        
-      </h2>
+          
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-12-02T23:47:59+00:00" content="2018-12-02">
-          12-02
-        </time>
-      </div>
+          
 
-    </header>
-  </article>
+          
 
+        </div>
+      </header>
+    
 
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/12/02/redis/" itemprop="url">
-              
-                <span itemprop="name">redis 笔记</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-12-02T23:43:53+00:00" content="2018-12-02">
-          12-02
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/12/02/mp/" itemprop="url">
-              
-                <span itemprop="name">记一次微信小程序的项目实践</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-12-02T23:36:34+00:00" content="2018-12-02">
-          12-02
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+      
+        <p>伪类和伪元素应该是CSS中常见的两个概念了，两者区别在于前者等效于一个类，后者等效于一个元素，伪类的效果可以通过添加一个类来实现，伪元素的效果则需要通过添加一个元素才能实现。伪类使用时用<code>:</code>，伪元素使用时用<code>::</code>。本来这两个概念在日常工作中都是很平安的，直到发现自己写过的<code>input[type=&quot;checkbox&quot;][checked=&quot;checked&quot;]</code>对checked的input元素失效，才发现自己需要的是<code>input[type=&quot;checkbox&quot;]:checked</code>。虽然前者作为属性选择器，对于在属性中声明checked状态的input是管用的，但对于不显式声明checked状态的input就无能为力了，只能靠后者了。由此，决心重新整理下那些常用和 <strong>将来可能会常用</strong> 的伪类和伪元素，顺便归类和标记一下~</p>
+<h3 id="伪类"><a href="#伪类" class="headerlink" title="伪类"></a>伪类</h3><h4 id="状态相关"><a href="#状态相关" class="headerlink" title="状态相关"></a>状态相关</h4><p>几乎所有元素通用，不过常用于a元素，:focus还比较常用于表单元素，:hover也很常用</p>
+<ul>
+<li><code>:link</code></li>
+<li><code>:visited</code></li>
+<li><code>:hover</code></li>
+<li><code>:active</code></li>
+<li><code>:focus</code></li>
+</ul>
+<h4 id="结构相关"><a href="#结构相关" class="headerlink" title="结构相关"></a>结构相关</h4><h5 id="父子元素间的元素位置"><a href="#父子元素间的元素位置" class="headerlink" title="父子元素间的元素位置"></a>父子元素间的元素位置</h5><ul>
+<li><code>:first-child</code></li>
+<li><code>:last-child</code></li>
+<li><code>:nth-child</code> 根据元素的位置匹配一个或者多个元素，它接受一个an+b形式的参数 如:nth-child(2n)</li>
+<li><code>:nth-last-child</code> 与:nth-child类似，但是从最后一个子元素开始计数</li>
+<li><code>:only-child</code></li>
+</ul>
+<h5 id="父子元素间的元素类型"><a href="#父子元素间的元素类型" class="headerlink" title="父子元素间的元素类型"></a>父子元素间的元素类型</h5><ul>
+<li><code>:first-of-type</code> 匹配当前元素是其父元素的第一个该类型元素的元素</li>
+<li><code>:last-of-type</code></li>
+<li><code>:nth-of-type</code></li>
+<li><code>:nth-last-of-type</code></li>
+<li><code>:only-of-type</code></li>
+</ul>
+<h5 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h5><ul>
+<li><code>:not</code> 匹配不符合参数选择器的元素</li>
+<li><code>:target</code> 匹配URL中的锚指向的元素</li>
+<li><code>:empty</code> 匹配没有子元素的元素</li>
+</ul>
+<h4 id="表单相关"><a href="#表单相关" class="headerlink" title="表单相关"></a>表单相关</h4><p>顺便翻了下表单元素，其包括 form input select option button textarea label fieldset legend optgroup<br>然而，我居然没怎么用过后面三种。。</p>
+<h5 id="表单通用"><a href="#表单通用" class="headerlink" title="表单通用"></a>表单通用</h5><ul>
+<li><code>:disabled</code> 禁用的</li>
+<li><code>:enabled</code> 可用的</li>
+<li><code>:required</code> 必选的</li>
+<li><code>:optional</code> 可选的</li>
+<li><code>:read-only</code> 只能读</li>
+<li><code>:read-write</code> 能读能写</li>
+<li><code>:default</code> 默认样式，对button input option 有用，目测平时用不着</li>
+<li><code>:valid</code> 合法的</li>
+<li><code>:invalid</code> 非法的</li>
+<li><code>:focus</code> // 通用伪类，对于表单元素来说更常见</li>
+</ul>
+<p>对于上面成双成对的，日常使用的话应该只会用其中一个，如<code>:disabled</code>,<code>:required</code>,<code>:read-only</code>,毕竟他们的另一半都是默认的。。</p>
+<h5 id="文本类"><a href="#文本类" class="headerlink" title="文本类"></a>文本类</h5><ul>
+<li><code>:placeholder-shown</code> // 草稿中 可以指定显示placeholder的时候input元素的样式，注意这不能修改placeholder的样式，如果想要修改，请使用<code>::placeholder</code></li>
+</ul>
+<h5 id="选择类"><a href="#选择类" class="headerlink" title="选择类"></a>选择类</h5><ul>
+<li><code>:checked</code> 包括<code>input[type=&quot;checkbox&quot;]:checked</code>, <code>input[type=&quot;radio&quot;]:checked</code>, <code>option:checked</code>(实际上并没有什么卵用，因为option的样式并不能通过CSS来修改)</li>
+<li><code>:indeterminate</code> 未定</li>
+</ul>
+<h5 id="数字类"><a href="#数字类" class="headerlink" title="数字类"></a>数字类</h5><ul>
+<li><code>:in-range</code> <code>:input[type=&quot;number&quot;]:in-range</code> 在指定区间内</li>
+<li><code>:out-of-range</code> <code>:input[type=&quot;number&quot;]:out-of-range</code> 不在指定区间</li>
+</ul>
+<h3 id="伪元素"><a href="#伪元素" class="headerlink" title="伪元素"></a>伪元素</h3><h4 id="单双冒号皆可"><a href="#单双冒号皆可" class="headerlink" title="单双冒号皆可"></a>单双冒号皆可</h4><ul>
+<li><code>::after</code></li>
+<li><code>::before</code></li>
+<li><code>::first-letter</code></li>
+<li><code>::first-line</code></li>
+</ul>
+<p>即便如此，还是都用<code>::</code>吧，与伪类区分开来。</p>
+<h4 id="仅双冒号"><a href="#仅双冒号" class="headerlink" title="仅双冒号"></a>仅双冒号</h4><ul>
+<li><code>::selection</code> 文档中被用户高亮的部分，只支持color, background-color, cursor, outline, text-decoration, text-emphasis-color和text-shadow</li>
+<li><code>::placeholder</code> input元素中placeholder文本的样式</li>
+</ul>
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/08/09/queue-using-stack/" itemprop="url">
-              
-                <span itemprop="name">用栈模拟队列</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-08-09T19:47:37+00:00" content="2018-08-09">
-          08-09
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/08/09/large-number/" itemprop="url">
-              
-                <span itemprop="name">大数相乘</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-08-09T19:21:39+00:00" content="2018-08-09">
-          08-09
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/07/21/concepts/" itemprop="url">
-              
-                <span itemprop="name">几个概念：虚拟主机、ECS和VPS</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-07-21T23:33:59+00:00" content="2018-07-21">
-          07-21
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/06/29/ubuntu/" itemprop="url">
-              
-                <span itemprop="name">Ubuntu 16.04下折腾记</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-06-29T15:20:57+00:00" content="2018-06-29">
-          06-29
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/06/29/zsh/" itemprop="url">
-              
-                <span itemprop="name">Ubuntu 16.04下安装zsh和oh-my-zsh</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-06-29T14:45:32+00:00" content="2018-06-29">
-          06-29
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/06/28/pre-commit/" itemprop="url">
-              
-                <span itemprop="name">利用pre-commit对js代码进行eslint检查</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-06-28T17:09:06+00:00" content="2018-06-28">
-          06-28
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/06/19/clear-docker/" itemprop="url">
-              
-                <span itemprop="name">一键清理没用的docker容器</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-06-19T14:07:45+00:00" content="2018-06-19">
-          06-19
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
     </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/总结/" rel="tag"># 总结</a>
+          
+            <a href="/tags/css/" rel="tag"># css</a>
+          
+            <a href="/tags/伪类/" rel="tag"># 伪类</a>
+          
+            <a href="/tags/伪元素/" rel="tag"># 伪元素</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/26/line-height/" rel="next" title="line-height">
+                <i class="fa fa-chevron-left"></i> line-height
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/04/05/apache/" rel="prev" title="mac中apache的基本配置">
+                mac中apache的基本配置 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
-
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/5/">5</a><a class="extend next" rel="next" href="/archives/page/2/"><i class="fa fa-angle-right"></i></a>
-  </nav>
+  </article>
 
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -659,6 +491,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -679,8 +515,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -743,6 +588,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#伪类"><span class="nav-number">1.</span> <span class="nav-text">伪类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#状态相关"><span class="nav-number">1.1.</span> <span class="nav-text">状态相关</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#结构相关"><span class="nav-number">1.2.</span> <span class="nav-text">结构相关</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#父子元素间的元素位置"><span class="nav-number">1.2.1.</span> <span class="nav-text">父子元素间的元素位置</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#父子元素间的元素类型"><span class="nav-number">1.2.2.</span> <span class="nav-text">父子元素间的元素类型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#其他"><span class="nav-number">1.2.3.</span> <span class="nav-text">其他</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#表单相关"><span class="nav-number">1.3.</span> <span class="nav-text">表单相关</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#表单通用"><span class="nav-number">1.3.1.</span> <span class="nav-text">表单通用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#文本类"><span class="nav-number">1.3.2.</span> <span class="nav-text">文本类</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#选择类"><span class="nav-number">1.3.3.</span> <span class="nav-text">选择类</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#数字类"><span class="nav-number">1.3.4.</span> <span class="nav-text">数字类</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#伪元素"><span class="nav-number">2.</span> <span class="nav-text">伪元素</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#单双冒号皆可"><span class="nav-number">2.1.</span> <span class="nav-text">单双冒号皆可</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#仅双冒号"><span class="nav-number">2.2.</span> <span class="nav-text">仅双冒号</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -883,6 +744,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 

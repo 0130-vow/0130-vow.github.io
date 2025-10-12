@@ -37,7 +37,7 @@
 
 
 
-<title>Java 开发体系汇总 | Straw</title>
+<title>Java 集合框架常用方法总结 | Straw</title>
 
 
 
@@ -214,7 +214,7 @@
         </h2>
       </a>
       <div id="header-title" class="opacity-0 md:ml-2 md:mt-[0.1rem] text-xs font-medium whitespace-nowrap overflow-hidden overflow-ellipsis">
-        Java 开发体系汇总
+        Java 集合框架常用方法总结
       </div>
       <div class="flex-1"></div>
       <div class="flex items-center gap-3">
@@ -298,7 +298,7 @@
   <header class="overflow-hidden pt-6 pb-6 md:pt-12">
     <div class="pt-4 md:pt-6">
       <h1 id="article-title" class="text-[2rem] font-bold leading-snug mb-4 md:mb-6 md:text-[2.6rem]">
-        Java 开发体系汇总
+        Java 集合框架常用方法总结
       </h1>
       <div>
         <section class="flex items-center gap-3 text-sm">
@@ -309,18 +309,18 @@
           <span class="text-gray-400">·</span>
           <span class="flex items-center gap-1">
             <iconify-icon width="18" icon="ic:round-access-alarm" ></iconify-icon>
-            <span>1 min</span>
+            <span>3 min</span>
           </span>
           <span class="text-gray-400">·</span>
           <span class="flex items-center gap-1">
             <iconify-icon width="18" icon="icon-park-outline:font-search" ></iconify-icon>
-            <span>89 words</span>
+            <span>920 words</span>
           </span>
           
             <span class="text-gray-400">·</span>
             <span class="flex items-center gap-1">
               <iconify-icon width="16" icon="icon-park-outline:box" class="mr-2"></iconify-icon>
-              <a class="article-category-link" href="/categories/Java-%E4%BD%93%E7%B3%BB/">Java 体系</a>
+              <a class="article-category-link" href="/categories/Java-%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/">Java 集合框架</a>
             </span>
           
         </section>
@@ -329,20 +329,369 @@
   </header>
   <!-- content -->
   <article class="post-content prose m-auto slide-enter-content dark:prose-invert">
-    <h3 id="🧭-Java-十三大核心板块："><a href="#🧭-Java-十三大核心板块：" class="headerlink" title="🧭 Java 十三大核心板块："></a>🧭 Java 十三大核心板块：</h3><ul>
-<li><strong>Java 基础 (Core Java)</strong></li>
-<li><strong>Java 集合框架</strong></li>
-<li><strong>Java 并发编程 (JUC)</strong></li>
-<li><strong>JVM (Java虚拟机)</strong></li>
-<li><strong>Java 新特性 (Java 8+)</strong></li>
-<li><strong>Spring 框架与生态</strong></li>
-<li><strong>数据库</strong></li>
-<li><strong>中间件与分布式系统</strong></li>
-<li><strong>工程化与 DevOps</strong></li>
-<li><strong>数据结构与算法</strong></li>
-<li><strong>计算机网络与 IO</strong></li>
-<li><strong>系统设计与架构能力</strong></li>
-<li><strong>软技能与职业成长</strong></li>
+    <h2 id="🌿-一、Collection-接口（单列集合）"><a href="#🌿-一、Collection-接口（单列集合）" class="headerlink" title="🌿 一、Collection 接口（单列集合）"></a>🌿 一、Collection 接口（单列集合）</h2><h3 id="📘-共性方法（List、Set、Queue-都继承自-Collection）"><a href="#📘-共性方法（List、Set、Queue-都继承自-Collection）" class="headerlink" title="📘 共性方法（List、Set、Queue 都继承自 Collection）"></a>📘 共性方法（List、Set、Queue 都继承自 Collection）</h3><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>add(E e)</td>
+<td>添加元素</td>
+</tr>
+<tr>
+<td>addAll(Collection c)</td>
+<td>添加集合</td>
+</tr>
+<tr>
+<td>remove(Object o)</td>
+<td>删除指定元素</td>
+</tr>
+<tr>
+<td>removeAll(Collection c)</td>
+<td>删除多个元素</td>
+</tr>
+<tr>
+<td>retainAll(Collection c)</td>
+<td>取交集</td>
+</tr>
+<tr>
+<td>clear()</td>
+<td>清空集合</td>
+</tr>
+<tr>
+<td>contains(Object o)</td>
+<td>是否包含</td>
+</tr>
+<tr>
+<td>isEmpty()</td>
+<td>是否为空</td>
+</tr>
+<tr>
+<td>size()</td>
+<td>元素数量</td>
+</tr>
+<tr>
+<td>iterator()</td>
+<td>获取迭代器</td>
+</tr>
+<tr>
+<td>forEach(Consumer action)</td>
+<td>遍历（JDK8 Lambda）</td>
+</tr>
+<tr>
+<td>stream()</td>
+<td>转为流操作</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="1️⃣-List（有序，可重复）"><a href="#1️⃣-List（有序，可重复）" class="headerlink" title="1️⃣ List（有序，可重复）"></a>1️⃣ List（有序，可重复）</h2><h3 id="🧱-常见实现类"><a href="#🧱-常见实现类" class="headerlink" title="🧱 常见实现类"></a>🧱 常见实现类</h3><ul>
+<li><strong>ArrayList</strong> → 动态数组，随机访问快  </li>
+<li><strong>LinkedList</strong> → 双向链表，插入删除快  </li>
+<li><strong>Vector</strong>（已过时）  </li>
+<li><strong>Stack</strong>（继承 Vector，已过时）  </li>
+<li><strong>CopyOnWriteArrayList</strong> → 并发安全，读多写少</li>
+</ul>
+<h3 id="🔧-常用方法"><a href="#🔧-常用方法" class="headerlink" title="🔧 常用方法"></a>🔧 常用方法</h3><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>get(int index)</td>
+<td>获取指定下标元素</td>
+</tr>
+<tr>
+<td>set(int index, E e)</td>
+<td>替换元素</td>
+</tr>
+<tr>
+<td>add(int index, E e)</td>
+<td>指定位置插入</td>
+</tr>
+<tr>
+<td>remove(int index)</td>
+<td>删除指定位置元素</td>
+</tr>
+<tr>
+<td>indexOf(Object o) &#x2F; lastIndexOf(Object o)</td>
+<td>查找索引</td>
+</tr>
+<tr>
+<td>subList(int from, int to)</td>
+<td>截取子列表</td>
+</tr>
+<tr>
+<td>sort(Comparator c)</td>
+<td>排序（JDK8）</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="1-2-Set（无序-有序，不重复）"><a href="#1-2-Set（无序-有序，不重复）" class="headerlink" title="1.2 Set（无序 &#x2F; 有序，不重复）"></a>1.2 Set（无序 &#x2F; 有序，不重复）</h2><h3 id="🧱-常见实现类-1"><a href="#🧱-常见实现类-1" class="headerlink" title="🧱 常见实现类"></a>🧱 常见实现类</h3><ul>
+<li>HashSet → 基于 HashMap 实现，元素唯一  </li>
+<li>LinkedHashSet → 保持插入顺序  </li>
+<li>TreeSet → 基于 TreeMap，自动排序  </li>
+<li>CopyOnWriteArraySet → 并发安全集合  </li>
+<li>ConcurrentSkipListSet → 并发有序集合</li>
+</ul>
+<h3 id="🔧-常用方法-1"><a href="#🔧-常用方法-1" class="headerlink" title="🔧 常用方法"></a>🔧 常用方法</h3><p>（继承自 Collection，无特有方法）<br><strong>TreeSet</strong> 额外支持：</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>first() &#x2F; last()</td>
+<td>获取第一个&#x2F;最后一个元素</td>
+</tr>
+<tr>
+<td>headSet(E to) &#x2F; tailSet(E from)</td>
+<td>截取子集</td>
+</tr>
+<tr>
+<td>subSet(E from, E to)</td>
+<td>获取范围子集</td>
+</tr>
+<tr>
+<td>comparator()</td>
+<td>获取比较器</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="1-3-Queue-Deque（队列-双端队列）"><a href="#1-3-Queue-Deque（队列-双端队列）" class="headerlink" title="1.3 Queue &#x2F; Deque（队列 &#x2F; 双端队列）"></a>1.3 Queue &#x2F; Deque（队列 &#x2F; 双端队列）</h2><h3 id="🧱-常见实现类-2"><a href="#🧱-常见实现类-2" class="headerlink" title="🧱 常见实现类"></a>🧱 常见实现类</h3><ul>
+<li>PriorityQueue → 基于堆的优先队列  </li>
+<li>ArrayDeque → 高效双端队列  </li>
+<li>LinkedList → 也实现了 Deque  </li>
+<li>BlockingQueue（接口族）  <ul>
+<li>ArrayBlockingQueue  </li>
+<li>LinkedBlockingQueue  </li>
+<li>PriorityBlockingQueue  </li>
+<li>DelayQueue  </li>
+<li>SynchronousQueue</li>
+</ul>
+</li>
+</ul>
+<h3 id="🔧-常用方法-2"><a href="#🔧-常用方法-2" class="headerlink" title="🔧 常用方法"></a>🔧 常用方法</h3><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>offer(E e)</td>
+<td>入队（返回 boolean）</td>
+</tr>
+<tr>
+<td>poll()</td>
+<td>出队（返回元素或 null）</td>
+</tr>
+<tr>
+<td>peek()</td>
+<td>查看队首但不移除</td>
+</tr>
+<tr>
+<td>element()</td>
+<td>查看队首（若为空抛异常）</td>
+</tr>
+<tr>
+<td>remove()</td>
+<td>删除队首（若为空抛异常）</td>
+</tr>
+</tbody></table>
+<p><strong>Deque 特有：</strong></p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>addFirst(E e) &#x2F; addLast(E e)</td>
+<td>头尾插入</td>
+</tr>
+<tr>
+<td>removeFirst() &#x2F; removeLast()</td>
+<td>头尾删除</td>
+</tr>
+<tr>
+<td>peekFirst() &#x2F; peekLast()</td>
+<td>查看头尾元素</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="2️⃣-Map-接口（双列集合：key-value）"><a href="#2️⃣-Map-接口（双列集合：key-value）" class="headerlink" title="2️⃣ Map 接口（双列集合：key-value）"></a>2️⃣ Map 接口（双列集合：key-value）</h2><h3 id="📘-共性方法"><a href="#📘-共性方法" class="headerlink" title="📘 共性方法"></a>📘 共性方法</h3><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>put(K key, V value)</td>
+<td>添加或覆盖键值对</td>
+</tr>
+<tr>
+<td>get(Object key)</td>
+<td>获取值</td>
+</tr>
+<tr>
+<td>getOrDefault(Object key, V default)</td>
+<td>默认值获取</td>
+</tr>
+<tr>
+<td>remove(Object key)</td>
+<td>删除键值对</td>
+</tr>
+<tr>
+<td>containsKey(Object key) &#x2F; containsValue(Object value)</td>
+<td>是否包含</td>
+</tr>
+<tr>
+<td>size()</td>
+<td>键值对数量</td>
+</tr>
+<tr>
+<td>clear()</td>
+<td>清空</td>
+</tr>
+<tr>
+<td>isEmpty()</td>
+<td>是否为空</td>
+</tr>
+<tr>
+<td>keySet()</td>
+<td>所有键</td>
+</tr>
+<tr>
+<td>values()</td>
+<td>所有值</td>
+</tr>
+<tr>
+<td>entrySet()</td>
+<td>键值对集合</td>
+</tr>
+<tr>
+<td>forEach(BiConsumer&lt;K,V&gt;)</td>
+<td>遍历（Lambda）</td>
+</tr>
+<tr>
+<td>putIfAbsent(K key, V value)</td>
+<td>若不存在则添加</td>
+</tr>
+<tr>
+<td>replace(K key, V value)</td>
+<td>替换值</td>
+</tr>
+<tr>
+<td>merge(K key, V value, BiFunction remapping)</td>
+<td>合并规则（JDK8）</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="🧱-常见实现类-3"><a href="#🧱-常见实现类-3" class="headerlink" title="🧱 常见实现类"></a>🧱 常见实现类</h3><ul>
+<li>HashMap → 哈希表（JDK 1.8 起链表 + 红黑树）  </li>
+<li>LinkedHashMap → 保序哈希表  </li>
+<li>TreeMap → 红黑树结构，按 key 排序  </li>
+<li>Hashtable → 同步哈希表（过时）  </li>
+<li>ConcurrentHashMap → 高性能并发哈希表  </li>
+<li>ConcurrentSkipListMap → 并发有序 Map  </li>
+<li>WeakHashMap → 使用弱引用键  </li>
+<li>IdentityHashMap → 比较键用 <code>==</code>  </li>
+<li>Properties → 键值均为字符串</li>
+</ul>
+<hr>
+<h2 id="3️⃣-工具类"><a href="#3️⃣-工具类" class="headerlink" title="3️⃣ 工具类"></a>3️⃣ 工具类</h2><h3 id="Collections（集合工具类）"><a href="#Collections（集合工具类）" class="headerlink" title="Collections（集合工具类）"></a>Collections（集合工具类）</h3><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>sort(List) &#x2F; sort(List, Comparator)</td>
+<td>排序</td>
+</tr>
+<tr>
+<td>reverse(List)</td>
+<td>反转</td>
+</tr>
+<tr>
+<td>shuffle(List)</td>
+<td>随机打乱</td>
+</tr>
+<tr>
+<td>max(Collection) &#x2F; min(Collection)</td>
+<td>求最大最小值</td>
+</tr>
+<tr>
+<td>frequency(Collection, Object)</td>
+<td>统计出现次数</td>
+</tr>
+<tr>
+<td>synchronizedXXX(Collection)</td>
+<td>获取线程安全集合包装</td>
+</tr>
+<tr>
+<td>unmodifiableXXX(Collection)</td>
+<td>获取只读集合包装</td>
+</tr>
+<tr>
+<td>copy(List dest, List src)</td>
+<td>复制集合内容</td>
+</tr>
+</tbody></table>
+<h3 id="Arrays（数组工具类）"><a href="#Arrays（数组工具类）" class="headerlink" title="Arrays（数组工具类）"></a>Arrays（数组工具类）</h3><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>sort(array)</td>
+<td>排序</td>
+</tr>
+<tr>
+<td>binarySearch(array, key)</td>
+<td>二分查找</td>
+</tr>
+<tr>
+<td>equals(a1, a2)</td>
+<td>比较内容</td>
+</tr>
+<tr>
+<td>fill(array, val)</td>
+<td>填充</td>
+</tr>
+<tr>
+<td>copyOf(array, newLength)</td>
+<td>扩容</td>
+</tr>
+<tr>
+<td>asList(array)</td>
+<td>数组转 List</td>
+</tr>
+<tr>
+<td>stream(array)</td>
+<td>数组转流</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="4️⃣-特殊集合与扩展"><a href="#4️⃣-特殊集合与扩展" class="headerlink" title="4️⃣ 特殊集合与扩展"></a>4️⃣ 特殊集合与扩展</h2><ul>
+<li>EnumSet &#x2F; EnumMap → 专为枚举类型设计，性能高  </li>
+<li>CopyOnWriteArrayList &#x2F; Set → 并发安全（读多写少）  </li>
+<li>BlockingQueue 系列 → 支持线程阻塞  </li>
+<li>ConcurrentSkipListMap &#x2F; Set → 并发有序结构  </li>
+<li>WeakHashMap → 键为弱引用，防止内存泄漏  </li>
+<li>IdentityHashMap → 使用 <code>==</code> 比较键  </li>
+<li>Properties → 键值均为字符串（配置文件常用）</li>
 </ul>
 
   </article>
@@ -354,22 +703,26 @@
           <a href="/tags/Java/">Java</a>
         </span>
       
+        <span class="bg-gray-100 dark:bg-gray-700 px-2 py-1 m-1 text-sm rounded-md transition-colors hover:bg-gray-200">
+          <a href="/tags/%E9%9B%86%E5%90%88/">集合</a>
+        </span>
+      
     
   </div>
   <!-- prev and next -->
   <div class="flex justify-between mt-12 pt-6 border-t border-gray-200">
     <div>
       
-        <a href="/2025/10/12/Java%20%E5%BC%80%E5%8F%91%E4%BD%93%E7%B3%BB%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%97/" class="text-sm text-gray-400 hover:text-gray-500 flex justify-center">
+        <a href="/2025/10/12/Java%20%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%E5%AE%8C%E6%95%B4%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/" class="text-sm text-gray-400 hover:text-gray-500 flex justify-center">
           <iconify-icon width="20" icon="ri:arrow-left-s-line" data-inline="false"></iconify-icon>
-          Java 开发体系学习指南
+          Java 集合框架完整体系结构
         </a>
       
     </div>
     <div>
       
-        <a href="/2025/10/12/Java%20%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%E5%AE%8C%E6%95%B4%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/" class="text-sm text-gray-400 hover:text-gray-500 flex justify-center">
-          Java 集合框架完整体系结构
+        <a href="/2025/10/09/2025-10-09-blog-init/" class="text-sm text-gray-400 hover:text-gray-500 flex justify-center">
+          Hexo 学习笔记(2)
           <iconify-icon width="20" icon="ri:arrow-right-s-line" data-inline="false"></iconify-icon>
         </a>
       

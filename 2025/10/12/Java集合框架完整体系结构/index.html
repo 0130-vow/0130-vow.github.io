@@ -37,7 +37,7 @@
 
 
 
-<title>Hexo</title>
+<title>Java集合框架完整体系结构 | Hexo</title>
 
 
 
@@ -214,7 +214,7 @@
         </h2>
       </a>
       <div id="header-title" class="opacity-0 md:ml-2 md:mt-[0.1rem] text-xs font-medium whitespace-nowrap overflow-hidden overflow-ellipsis">
-        
+        Java集合框架完整体系结构
       </div>
       <div class="flex-1"></div>
       <div class="flex items-center gap-3">
@@ -298,24 +298,30 @@
   <header class="overflow-hidden pt-6 pb-6 md:pt-12">
     <div class="pt-4 md:pt-6">
       <h1 id="article-title" class="text-[2rem] font-bold leading-snug mb-4 md:mb-6 md:text-[2.6rem]">
-        
+        Java集合框架完整体系结构
       </h1>
       <div>
         <section class="flex items-center gap-3 text-sm">
           <span class="flex items-center gap-1">
             <iconify-icon width="18" icon="carbon-calendar" ></iconify-icon>
-            <time>2025-10-09</time>
+            <time>2025-10-12</time>
           </span>
           <span class="text-gray-400">·</span>
           <span class="flex items-center gap-1">
             <iconify-icon width="18" icon="ic:round-access-alarm" ></iconify-icon>
-            <span>1 min</span>
+            <span>2 min</span>
           </span>
           <span class="text-gray-400">·</span>
           <span class="flex items-center gap-1">
             <iconify-icon width="18" icon="icon-park-outline:font-search" ></iconify-icon>
-            <span>7 words</span>
+            <span>628 words</span>
           </span>
+          
+            <span class="text-gray-400">·</span>
+            <span class="flex items-center gap-1">
+              <iconify-icon width="16" icon="icon-park-outline:box" class="mr-2"></iconify-icon>
+              <a class="article-category-link" href="/categories/JAVA%E5%9F%BA%E7%A1%80/">JAVA基础</a>
+            </span>
           
         </section>
       </div>
@@ -323,13 +329,40 @@
   </header>
   <!-- content -->
   <article class="post-content prose m-auto slide-enter-content dark:prose-invert">
-    <h2 id="test"><a href="#test" class="headerlink" title="test"></a>test</h2><blockquote>
-<p>我来测试看看</p>
-</blockquote>
+    <h2 id="Java集合框架完整体系结构"><a href="#Java集合框架完整体系结构" class="headerlink" title="Java集合框架完整体系结构"></a><strong>Java集合框架完整体系结构</strong></h2><h3 id="1-Collection接口体系"><a href="#1-Collection接口体系" class="headerlink" title="1. Collection接口体系"></a><strong>1. Collection接口体系</strong></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">Collection (接口)</span><br><span class="line">│</span><br><span class="line">├── List (有序，可重复)</span><br><span class="line">│   │</span><br><span class="line">│   ├── ArrayList → 动态数组，随机访问快，插入/删除慢</span><br><span class="line">│   ├── LinkedList → 双向链表，插入/删除快，随机访问慢</span><br><span class="line">│   ├── Vector → 线程安全动态数组（已过时）</span><br><span class="line">│   │   └── Stack → LIFO 栈（继承Vector，已过时）</span><br><span class="line">│   └── CopyOnWriteArrayList → 并发安全，适合读多写少场景</span><br><span class="line">│</span><br><span class="line">├── Set (无序/有序，不重复)</span><br><span class="line">│   │</span><br><span class="line">│   ├── HashSet → 基于HashMap，元素唯一</span><br><span class="line">│   ├── LinkedHashSet → 基于LinkedHashMap，保持插入顺序</span><br><span class="line">│   ├── TreeSet → 基于TreeMap（红黑树），排序存储</span><br><span class="line">│   ├── CopyOnWriteArraySet → 并发安全，基于CopyOnWriteArrayList</span><br><span class="line">│   └── ConcurrentSkipListSet → 并发有序集合（跳表实现）</span><br><span class="line">│</span><br><span class="line">└── Queue/Deque (队列/双端队列)</span><br><span class="line">    │</span><br><span class="line">    ├── PriorityQueue → 基于堆的优先级队列</span><br><span class="line">    ├── ArrayDeque → 高效双端队列（循环数组实现）</span><br><span class="line">    ├── LinkedList → 也实现了Deque（双端链表结构）</span><br><span class="line">    │</span><br><span class="line">    └── BlockingQueue (接口) → 支持阻塞的队列体系</span><br><span class="line">        ├── ArrayBlockingQueue → 有界阻塞队列</span><br><span class="line">        ├── LinkedBlockingQueue → 链表实现的阻塞队列</span><br><span class="line">        ├── PriorityBlockingQueue → 支持优先级排序</span><br><span class="line">        ├── DelayQueue → 延迟队列</span><br><span class="line">        ├── SynchronousQueue → 同步队列</span><br><span class="line">        └── LinkedTransferQueue → 传输队列（JDK7+）</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-Map接口体系"><a href="#2-Map接口体系" class="headerlink" title="2. Map接口体系"></a><strong>2. Map接口体系</strong></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Map (接口)</span><br><span class="line">│</span><br><span class="line">├── HashMap → 哈希表（JDK 1.8起链表 + 红黑树）</span><br><span class="line">├── LinkedHashMap → 哈希表 + 双向链表，顺序可控</span><br><span class="line">├── TreeMap → 红黑树结构，按key排序</span><br><span class="line">├── Hashtable → 线程安全（已过时）</span><br><span class="line">├── ConcurrentHashMap → 高性能并发哈希表（分段锁/CAS实现）</span><br><span class="line">└── ConcurrentSkipListMap → 并发有序Map（跳表结构）</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-迭代器体系"><a href="#3-迭代器体系" class="headerlink" title="3. 迭代器体系"></a><strong>3. 迭代器体系</strong></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Iterator (接口)</span><br><span class="line">│</span><br><span class="line">├── 基本迭代方法：</span><br><span class="line">│   ├── hasNext()</span><br><span class="line">│   ├── next()</span><br><span class="line">│   └── remove()</span><br><span class="line">│</span><br><span class="line">└── ListIterator (接口) → List专用双向迭代器</span><br><span class="line">    ├── hasPrevious()</span><br><span class="line">    ├── previous()</span><br><span class="line">    ├── nextIndex()</span><br><span class="line">    ├── previousIndex()</span><br><span class="line">    ├── set(E e)</span><br><span class="line">    └── add(E e)</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-工具类体系"><a href="#4-工具类体系" class="headerlink" title="4. 工具类体系"></a><strong>4. 工具类体系</strong></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">工具类</span><br><span class="line">│</span><br><span class="line">├── Collections → 集合操作工具类</span><br><span class="line">│   ├── 排序（sort）</span><br><span class="line">│   ├── 同步包装（synchronizedXXX）</span><br><span class="line">│   ├── 只读包装（unmodifiableXXX）</span><br><span class="line">│   ├── 最大最小值（max/min）</span><br><span class="line">│   └── 二分查找（binarySearch）</span><br><span class="line">│</span><br><span class="line">└── Arrays → 数组工具类</span><br><span class="line">    ├── 排序（sort）</span><br><span class="line">    ├── 查找（binarySearch）</span><br><span class="line">    ├── 转换（asList, stream等）</span><br><span class="line">    └── 填充/比较（fill, equals等）</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-特殊集合与扩展"><a href="#5-特殊集合与扩展" class="headerlink" title="5. 特殊集合与扩展"></a><strong>5. 特殊集合与扩展</strong></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">特殊集合</span><br><span class="line">│</span><br><span class="line">├── EnumSet / EnumMap → 专为枚举类型设计</span><br><span class="line">├── WeakHashMap → 使用弱引用键的Map</span><br><span class="line">├── IdentityHashMap → 使用&quot;==&quot;比较键的Map</span><br><span class="line">└── Properties → 键值均为字符串的配置表</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-并发集合补充"><a href="#6-并发集合补充" class="headerlink" title="6. 并发集合补充"></a><strong>6. 并发集合补充</strong></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">并发集合 (java.util.concurrent)</span><br><span class="line">│</span><br><span class="line">├── List并发</span><br><span class="line">│   └── CopyOnWriteArrayList</span><br><span class="line">│</span><br><span class="line">├── Set并发</span><br><span class="line">│   ├── CopyOnWriteArraySet</span><br><span class="line">│   └── ConcurrentSkipListSet</span><br><span class="line">│</span><br><span class="line">├── Queue并发</span><br><span class="line">│   └── BlockingQueue体系</span><br><span class="line">│</span><br><span class="line">└── Map并发</span><br><span class="line">    ├── ConcurrentHashMap</span><br><span class="line">    └── ConcurrentSkipListMap</span><br></pre></td></tr></table></figure>
+
+<h3 id="核心特性总结："><a href="#核心特性总结：" class="headerlink" title="核心特性总结："></a><strong>核心特性总结：</strong></h3><ul>
+<li><strong>迭代器模式</strong>：所有Collection都支持<code>Iterator</code>遍历</li>
+<li><strong>泛型支持</strong>：类型安全的集合操作</li>
+<li><strong>Fail-Fast机制</strong>：非并发集合的快速失败迭代器</li>
+<li><strong>算法复用</strong>：通过工具类提供通用算法</li>
+<li><strong>并发安全</strong>：专门的并发集合处理多线程场景</li>
+</ul>
+<p>这个体系结构清晰地展示了Java集合框架的层次关系和各类集合的特性和适用场景。</p>
 
   </article>
   <!-- tag -->
   <div class="mt-12 pt-6 border-t border-gray-200">
+    
+      
+        <span class="bg-gray-100 dark:bg-gray-700 px-2 py-1 m-1 text-sm rounded-md transition-colors hover:bg-gray-200">
+          <a href="/tags/Java/">Java</a>
+        </span>
+      
+        <span class="bg-gray-100 dark:bg-gray-700 px-2 py-1 m-1 text-sm rounded-md transition-colors hover:bg-gray-200">
+          <a href="/tags/%E9%9B%86%E5%90%88/">集合</a>
+        </span>
+      
     
   </div>
   <!-- prev and next -->

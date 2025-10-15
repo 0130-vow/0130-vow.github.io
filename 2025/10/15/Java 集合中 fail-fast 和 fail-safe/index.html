@@ -37,7 +37,7 @@
 
 
 
-<title>Java 集合框架完整体系结构 | Straw</title>
+<title>Java 集合中 fail-fast 和 fail-safe | Straw</title>
 
 
 
@@ -214,7 +214,7 @@
         </h2>
       </a>
       <div id="header-title" class="opacity-0 md:ml-2 md:mt-[0.1rem] text-xs font-medium whitespace-nowrap overflow-hidden overflow-ellipsis">
-        Java 集合框架完整体系结构
+        Java 集合中 fail-fast 和 fail-safe
       </div>
       <div class="flex-1"></div>
       <div class="flex items-center gap-3">
@@ -298,13 +298,13 @@
   <header class="overflow-hidden pt-6 pb-6 md:pt-12">
     <div class="pt-4 md:pt-6">
       <h1 id="article-title" class="text-[2rem] font-bold leading-snug mb-4 md:mb-6 md:text-[2.6rem]">
-        Java 集合框架完整体系结构
+        Java 集合中 fail-fast 和 fail-safe
       </h1>
       <div>
         <section class="flex items-center gap-3 text-sm">
           <span class="flex items-center gap-1">
             <iconify-icon width="18" icon="carbon-calendar" ></iconify-icon>
-            <time>2025-10-12</time>
+            <time>2025-10-15</time>
           </span>
           <span class="text-gray-400">·</span>
           <span class="flex items-center gap-1">
@@ -314,7 +314,7 @@
           <span class="text-gray-400">·</span>
           <span class="flex items-center gap-1">
             <iconify-icon width="18" icon="icon-park-outline:font-search" ></iconify-icon>
-            <span>583 words</span>
+            <span>570 words</span>
           </span>
           
             <span class="text-gray-400">·</span>
@@ -329,25 +329,111 @@
   </header>
   <!-- content -->
   <article class="post-content prose m-auto slide-enter-content dark:prose-invert">
-    <h3 id="1-Collection接口体系"><a href="#1-Collection接口体系" class="headerlink" title="1. Collection接口体系"></a><strong>1. Collection接口体系</strong></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">Collection (接口)</span><br><span class="line">│</span><br><span class="line">├── List (有序，可重复)</span><br><span class="line">│   │</span><br><span class="line">│   ├── ArrayList → 动态数组，随机访问快，插入/删除慢</span><br><span class="line">│   ├── LinkedList → 双向链表，插入/删除快，随机访问慢</span><br><span class="line">│   ├── Vector → 线程安全动态数组（已过时）</span><br><span class="line">│   │   └── Stack → LIFO 栈（继承Vector，已过时）</span><br><span class="line">│   └── CopyOnWriteArrayList → 并发安全，适合读多写少场景</span><br><span class="line">│</span><br><span class="line">├── Set (无序/有序，不重复)</span><br><span class="line">│   │</span><br><span class="line">│   ├── HashSet → 基于HashMap，元素唯一</span><br><span class="line">│   ├── LinkedHashSet → 基于LinkedHashMap，保持插入顺序</span><br><span class="line">│   ├── TreeSet → 基于TreeMap（红黑树），排序存储</span><br><span class="line">│   ├── CopyOnWriteArraySet → 并发安全，基于CopyOnWriteArrayList</span><br><span class="line">│   └── ConcurrentSkipListSet → 并发有序集合（跳表实现）</span><br><span class="line">│</span><br><span class="line">└── Queue/Deque (队列/双端队列)</span><br><span class="line">    │</span><br><span class="line">    ├── PriorityQueue → 基于堆的优先级队列</span><br><span class="line">    ├── ArrayDeque → 高效双端队列（循环数组实现）</span><br><span class="line">    ├── LinkedList → 也实现了Deque（双端链表结构）</span><br><span class="line">    │</span><br><span class="line">    └── BlockingQueue (接口) → 支持阻塞的队列体系</span><br><span class="line">        ├── ArrayBlockingQueue → 有界阻塞队列</span><br><span class="line">        ├── LinkedBlockingQueue → 链表实现的阻塞队列</span><br><span class="line">        ├── PriorityBlockingQueue → 支持优先级排序</span><br><span class="line">        ├── DelayQueue → 延迟队列</span><br><span class="line">        ├── SynchronousQueue → 同步队列</span><br><span class="line">        └── LinkedTransferQueue → 传输队列（JDK7+）</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-Map接口体系"><a href="#2-Map接口体系" class="headerlink" title="2. Map接口体系"></a><strong>2. Map接口体系</strong></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Map (接口)</span><br><span class="line">│</span><br><span class="line">├── HashMap → 哈希表（JDK 1.8起链表 + 红黑树）</span><br><span class="line">├── LinkedHashMap → 哈希表 + 双向链表，顺序可控</span><br><span class="line">├── TreeMap → 红黑树结构，按key排序</span><br><span class="line">├── Hashtable → 线程安全（已过时）</span><br><span class="line">├── ConcurrentHashMap → 高性能并发哈希表（分段锁/CAS实现）</span><br><span class="line">└── ConcurrentSkipListMap → 并发有序Map（跳表结构）</span><br></pre></td></tr></table></figure>
-
-<h3 id="3-迭代器体系"><a href="#3-迭代器体系" class="headerlink" title="3. 迭代器体系"></a><strong>3. 迭代器体系</strong></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Iterator (接口)</span><br><span class="line">│</span><br><span class="line">├── 基本迭代方法：</span><br><span class="line">│   ├── hasNext()</span><br><span class="line">│   ├── next()</span><br><span class="line">│   └── remove()</span><br><span class="line">│</span><br><span class="line">└── ListIterator (接口) → List专用双向迭代器</span><br><span class="line">    ├── hasPrevious()</span><br><span class="line">    ├── previous()</span><br><span class="line">    ├── nextIndex()</span><br><span class="line">    ├── previousIndex()</span><br><span class="line">    ├── set(E e)</span><br><span class="line">    └── add(E e)</span><br></pre></td></tr></table></figure>
-
-<h3 id="4-工具类体系"><a href="#4-工具类体系" class="headerlink" title="4. 工具类体系"></a><strong>4. 工具类体系</strong></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">工具类</span><br><span class="line">│</span><br><span class="line">├── Collections → 集合操作工具类</span><br><span class="line">│   ├── 排序（sort）</span><br><span class="line">│   ├── 同步包装（synchronizedXXX）</span><br><span class="line">│   ├── 只读包装（unmodifiableXXX）</span><br><span class="line">│   ├── 最大最小值（max/min）</span><br><span class="line">│   └── 二分查找（binarySearch）</span><br><span class="line">│</span><br><span class="line">└── Arrays → 数组工具类</span><br><span class="line">    ├── 排序（sort）</span><br><span class="line">    ├── 查找（binarySearch）</span><br><span class="line">    ├── 转换（asList, stream等）</span><br><span class="line">    └── 填充/比较（fill, equals等）</span><br></pre></td></tr></table></figure>
-
-<h3 id="5-特殊集合与扩展"><a href="#5-特殊集合与扩展" class="headerlink" title="5. 特殊集合与扩展"></a><strong>5. 特殊集合与扩展</strong></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">特殊集合</span><br><span class="line">│</span><br><span class="line">├── EnumSet / EnumMap → 专为枚举类型设计</span><br><span class="line">├── WeakHashMap → 使用弱引用键的Map</span><br><span class="line">├── IdentityHashMap → 使用&quot;==&quot;比较键的Map</span><br><span class="line">└── Properties → 键值均为字符串的配置表</span><br></pre></td></tr></table></figure>
-
-<h3 id="6-并发集合补充"><a href="#6-并发集合补充" class="headerlink" title="6. 并发集合补充"></a><strong>6. 并发集合补充</strong></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">并发集合 (java.util.concurrent)</span><br><span class="line">│</span><br><span class="line">├── List并发</span><br><span class="line">│   └── CopyOnWriteArrayList</span><br><span class="line">│</span><br><span class="line">├── Set并发</span><br><span class="line">│   ├── CopyOnWriteArraySet</span><br><span class="line">│   └── ConcurrentSkipListSet</span><br><span class="line">│</span><br><span class="line">├── Queue并发</span><br><span class="line">│   └── BlockingQueue体系</span><br><span class="line">│</span><br><span class="line">└── Map并发</span><br><span class="line">    ├── ConcurrentHashMap</span><br><span class="line">    └── ConcurrentSkipListMap</span><br></pre></td></tr></table></figure>
-
-<h3 id="核心特性总结："><a href="#核心特性总结：" class="headerlink" title="核心特性总结："></a><strong>核心特性总结：</strong></h3><ul>
-<li><strong>迭代器模式</strong>：所有Collection都支持<code>Iterator</code>遍历</li>
-<li><strong>泛型支持</strong>：类型安全的集合操作</li>
-<li><strong>Fail-Fast机制</strong>：非并发集合的快速失败迭代器</li>
-<li><strong>算法复用</strong>：通过工具类提供通用算法</li>
-<li><strong>并发安全</strong>：专门的并发集合处理多线程场景</li>
+    <p>👏——这是 Java 集合框架中一个<strong>经常考的核心概念</strong>，尤其是和并发修改异常（<code>ConcurrentModificationException</code>）相关。<br>我们来分层次地讲清楚：</p>
+<hr>
+<h2 id="🧩-一、基本概念"><a href="#🧩-一、基本概念" class="headerlink" title="🧩 一、基本概念"></a>🧩 一、基本概念</h2><h3 id="✅-Fail-Fast（快速失败）"><a href="#✅-Fail-Fast（快速失败）" class="headerlink" title="✅ Fail-Fast（快速失败）"></a>✅ <strong>Fail-Fast（快速失败）</strong></h3><blockquote>
+<p>当多个线程或同一线程在遍历集合的过程中，<strong>集合结构被修改</strong>（非通过迭代器自身的 <code>remove()</code> 方法），<strong>会立刻抛出异常</strong>，而不是继续遍历。</p>
+</blockquote>
+<ul>
+<li><p><strong>代表集合：</strong></p>
+<ul>
+<li><code>ArrayList</code></li>
+<li><code>HashMap</code></li>
+<li><code>HashSet</code></li>
+<li><code>LinkedList</code><br>等 <strong>非并发集合</strong>。</li>
 </ul>
+</li>
+<li><p><strong>典型异常：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java.util.ConcurrentModificationException</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>例子：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; list = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">list.add(<span class="string">&quot;A&quot;</span>);</span><br><span class="line">list.add(<span class="string">&quot;B&quot;</span>);</span><br><span class="line">list.add(<span class="string">&quot;C&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (String s : list) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="string">&quot;B&quot;</span>.equals(s)) &#123;</span><br><span class="line">        list.remove(s); <span class="comment">// ❌ 这里修改集合结构</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 抛出 ConcurrentModificationException</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>原因：</strong></p>
+<ul>
+<li><code>Iterator</code> 内部维护了一个 <strong>expectedModCount</strong>（预期修改次数）</li>
+<li>集合本身维护了 <strong>modCount</strong>（实际修改次数）</li>
+<li>每次迭代比较两者，不相等就抛异常。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="✅-Fail-Safe（安全失败）"><a href="#✅-Fail-Safe（安全失败）" class="headerlink" title="✅ Fail-Safe（安全失败）"></a>✅ <strong>Fail-Safe（安全失败）</strong></h3><blockquote>
+<p>在遍历过程中，即使集合被修改，也不会抛异常。因为它遍历的是<strong>原集合的副本</strong>（快照）。</p>
+</blockquote>
+<ul>
+<li><p><strong>代表集合：</strong></p>
+<ul>
+<li><code>CopyOnWriteArrayList</code></li>
+<li><code>CopyOnWriteArraySet</code></li>
+<li><code>ConcurrentHashMap</code></li>
+<li><code>ConcurrentSkipListMap</code> 等 <strong>并发集合类</strong>。</li>
+</ul>
+</li>
+<li><p><strong>特征：</strong></p>
+<ul>
+<li>修改集合不会影响当前遍历结果（因为遍历的快照）</li>
+<li>但修改后的新元素，不会被本次遍历看到</li>
+</ul>
+</li>
+<li><p><strong>例子：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">CopyOnWriteArrayList&lt;String&gt; list = <span class="keyword">new</span> <span class="title class_">CopyOnWriteArrayList</span>&lt;&gt;();</span><br><span class="line">list.add(<span class="string">&quot;A&quot;</span>);</span><br><span class="line">list.add(<span class="string">&quot;B&quot;</span>);</span><br><span class="line">list.add(<span class="string">&quot;C&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (String s : list) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="string">&quot;B&quot;</span>.equals(s)) &#123;</span><br><span class="line">        list.remove(s); <span class="comment">// ✅ 不会抛异常</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 遍历成功结束</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<hr>
+<h2 id="🧠-二、对比总结表"><a href="#🧠-二、对比总结表" class="headerlink" title="🧠 二、对比总结表"></a>🧠 二、对比总结表</h2><table>
+<thead>
+<tr>
+<th>特性</th>
+<th>Fail-Fast</th>
+<th>Fail-Safe</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>出现位置</td>
+<td>非并发集合</td>
+<td>并发集合</td>
+</tr>
+<tr>
+<td>修改检测机制</td>
+<td><code>modCount</code> 与 <code>expectedModCount</code> 比较</td>
+<td>通过快照机制或并发控制</td>
+</tr>
+<tr>
+<td>是否抛异常</td>
+<td>是 (<code>ConcurrentModificationException</code>)</td>
+<td>否</td>
+</tr>
+<tr>
+<td>遍历的数据</td>
+<td>原集合</td>
+<td>集合副本（快照）</td>
+</tr>
+<tr>
+<td>实现类举例</td>
+<td><code>ArrayList</code>, <code>HashMap</code>, <code>HashSet</code></td>
+<td><code>ConcurrentHashMap</code>, <code>CopyOnWriteArrayList</code></td>
+</tr>
+<tr>
+<td>适用场景</td>
+<td>单线程安全修改</td>
+<td>多线程并发读写</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="⚙️-三、延伸理解"><a href="#⚙️-三、延伸理解" class="headerlink" title="⚙️ 三、延伸理解"></a>⚙️ 三、延伸理解</h2><ul>
+<li><p><strong>Fail-Fast 并不是绝对可靠的机制</strong>：<br>它是<strong>尽最大努力地抛出异常</strong>，并非保证检测所有并发修改。</p>
+</li>
+<li><p><strong>Fail-Safe 的代价：</strong></p>
+<ul>
+<li>内存消耗大（需要复制数据）</li>
+<li>性能相对较低（尤其在频繁写操作时）</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="🧩-四、小结口诀"><a href="#🧩-四、小结口诀" class="headerlink" title="🧩 四、小结口诀"></a>🧩 四、小结口诀</h2><blockquote>
+<p>“<strong>快失败，抛异常；<br>安全型，做快照。<br>非并发，用 fail-fast；<br>并发用 fail-safe。</strong>”</p>
+</blockquote>
 
   </article>
   <!-- tag -->
@@ -368,16 +454,16 @@
   <div class="flex justify-between mt-12 pt-6 border-t border-gray-200">
     <div>
       
-        <a href="/2025/10/12/Java%20%E5%BC%80%E5%8F%91%E4%BD%93%E7%B3%BB%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%97/" class="text-sm text-gray-400 hover:text-gray-500 flex justify-center">
+        <a href="/2025/10/15/Java%20ArrayList%20%E7%9A%84%E6%89%A9%E5%AE%B9%E6%9C%BA%E5%88%B6/" class="text-sm text-gray-400 hover:text-gray-500 flex justify-center">
           <iconify-icon width="20" icon="ri:arrow-left-s-line" data-inline="false"></iconify-icon>
-          Java 开发体系学习指南
+          Java ArrayList 的扩容机制
         </a>
       
     </div>
     <div>
       
-        <a href="/2025/10/12/Java%20%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/" class="text-sm text-gray-400 hover:text-gray-500 flex justify-center">
-          Java 集合框架常用方法总结
+        <a href="/2025/10/15/SpringBoot%20%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8D%E6%B5%81%E7%A8%8B/" class="text-sm text-gray-400 hover:text-gray-500 flex justify-center">
+          SpringBoot 自动装配流程
           <iconify-icon width="20" icon="ri:arrow-right-s-line" data-inline="false"></iconify-icon>
         </a>
       

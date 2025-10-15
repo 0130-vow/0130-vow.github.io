@@ -37,7 +37,7 @@
 
 
 
-<title>Tag: SpringBoot | Straw</title>
+<title>Java ArrayList 的扩容机制 | Straw</title>
 
 
 
@@ -214,7 +214,7 @@
         </h2>
       </a>
       <div id="header-title" class="opacity-0 md:ml-2 md:mt-[0.1rem] text-xs font-medium whitespace-nowrap overflow-hidden overflow-ellipsis">
-        
+        Java ArrayList 的扩容机制
       </div>
       <div class="flex-1"></div>
       <div class="flex items-center gap-3">
@@ -280,45 +280,240 @@
 </div>
 
   <main class="pt-14">
-    
+    <!-- css -->
 
-  <section class="px-6 max-w-prose mx-auto gap-12 grid grid-cols-1">
-  <div class="flex flex-col h-48 items-center justify-center">
-    
-      <h1 class="site-title text-4xl leading-relaxed">
-        Tag - SpringBoot
+<link rel="stylesheet" href="/lib/fancybox/fancybox.min.css">
+
+
+<link rel="stylesheet" href="/lib/tocbot/tocbot.min.css">
+
+<!-- toc -->
+
+<section class="px-6 max-w-prose mx-auto md:px-0">
+  <!-- header -->
+  <header class="overflow-hidden pt-6 pb-6 md:pt-12">
+    <div class="pt-4 md:pt-6">
+      <h1 id="article-title" class="text-[2rem] font-bold leading-snug mb-4 md:mb-6 md:text-[2.6rem]">
+        Java ArrayList 的扩容机制
       </h1>
+      <div>
+        <section class="flex items-center gap-3 text-sm">
+          <span class="flex items-center gap-1">
+            <iconify-icon width="18" icon="carbon-calendar" ></iconify-icon>
+            <time>2025-10-15</time>
+          </span>
+          <span class="text-gray-400">·</span>
+          <span class="flex items-center gap-1">
+            <iconify-icon width="18" icon="ic:round-access-alarm" ></iconify-icon>
+            <span>3 min</span>
+          </span>
+          <span class="text-gray-400">·</span>
+          <span class="flex items-center gap-1">
+            <iconify-icon width="18" icon="icon-park-outline:font-search" ></iconify-icon>
+            <span>866 words</span>
+          </span>
+          
+            <span class="text-gray-400">·</span>
+            <span class="flex items-center gap-1">
+              <iconify-icon width="16" icon="icon-park-outline:box" class="mr-2"></iconify-icon>
+              <a class="article-category-link" href="/categories/Java-%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/">Java 集合框架</a>
+            </span>
+          
+        </section>
+      </div>
+    </div>
+  </header>
+  <!-- content -->
+  <article class="post-content prose m-auto slide-enter-content dark:prose-invert">
+    <p>ArrayList 的扩容机制，核心是为了解决一个矛盾：<strong>底层实现是定长数组，但又要对外提供一种“动态增长”的能力。</strong></p>
+<p>它的工作原理可以拆解为以下几个步骤：</p>
+<p><strong>1. 初始容量</strong><br>当我们使用无参构造函数 <code>new ArrayList()</code> 时，底层会初始化一个长度为 <strong>10</strong> 的空对象数组。这是一个默认的、为了平衡性能和内存的初始值。当然，我们也可以通过指定容量的构造函数来覆盖这个默认值。</p>
+<p><strong>2. 触发条件</strong><br>扩容不是时刻发生的。它的触发时机非常明确：<strong>当调用 <code>add</code> 方法添加一个新元素，并且当前数组的剩余空间已经完全用完（即 <code>size == elementData.length</code>）时</strong>，扩容机制才会启动。</p>
+<p><strong>3. 核心扩容逻辑</strong><br>这是面试官最想听的部分。当上述条件满足时，会执行以下操作：</p>
+<ul>
+<li><p><strong>计算新容量</strong>：这是最关键的一步。新数组的容量并不是简单地加1，而是按照 <strong>旧容量的1.5倍</strong> 来进行增长。在代码中的具体实现是：<br><code>int newCapacity = oldCapacity + (oldCapacity &gt;&gt; 1);</code><br>这里的 <code>oldCapacity &gt;&gt; 1</code> 是位运算，等价于除以2。所以，如果旧容量是10，新容量就是 10 + 5 &#x3D; 15。</p>
+</li>
+<li><p><strong>创建新数组</strong>：根据计算出来的新容量（比如15），在内存中申请一块新的、更大的连续空间，创建一个新的对象数组。</p>
+</li>
+<li><p><strong>数据迁移</strong>：这是整个过程中<strong>性能开销最大</strong>的一步。通过 <code>Arrays.copyOf()</code> 或类似的内存复制操作，将旧数组中的所有元素，原封不动地复制到新数组的前半部分。</p>
+</li>
+<li><p><strong>引用切换</strong>：当数据全部安全迁移到新数组后，ArrayList 内部的数组引用 <code>elementData</code> 会从指向旧数组改为指向新数组。至此，旧的数组就失去了引用，等待垃圾回收器回收。</p>
+</li>
+</ul>
+<p><strong>4. 添加新元素</strong><br>在完成了新数组的创建和数据迁移之后，最初引发扩容的那个新元素，才会被顺利添加到新数组的末尾（对于上面的例子，就是第11个位置）。</p>
+<p><strong>需要强调的几个关键点：</strong></p>
+<ul>
+<li><strong>性能成本</strong>：扩容的主要开销在于<strong>数组复制</strong>。当元素数量非常多时，频繁扩容会导致性能下降。因此，在能预估数据量的情况下，<strong>最好在创建 ArrayList 时就直接指定一个合适的初始容量</strong>，这是一个非常重要的优化手段。</li>
+<li><strong>增长因子</strong>：1.5倍的增长策略是空间和时间效率的一个折中。增长太快会浪费内存，增长太慢则会导致扩容操作过于频繁。</li>
+<li><strong>不会自动缩容</strong>：ArrayList 没有反向的自动缩容机制。即使你使用 <code>remove</code> 方法删除了大量元素，底层数组的长度依然保持不变，多余的空间会被闲置。如果需要释放这些空间，可以手动调用 <code>trimToSize()</code> 方法。</li>
+</ul>
+<p><strong>总结一下：</strong><br>简单来说，ArrayList 的扩容就是在需要时，创建一个原数组1.5倍大小的新数组，然后把老数据全部拷贝过去，再继续使用这个新数组。理解这个机制，对于在开发中正确地使用和优化 ArrayList 至关重要。</p>
+
+  </article>
+  <!-- tag -->
+  <div class="mt-12 pt-6 border-t border-gray-200">
+    
+      
+        <span class="bg-gray-100 dark:bg-gray-700 px-2 py-1 m-1 text-sm rounded-md transition-colors hover:bg-gray-200">
+          <a href="/tags/Java/">Java</a>
+        </span>
+      
+        <span class="bg-gray-100 dark:bg-gray-700 px-2 py-1 m-1 text-sm rounded-md transition-colors hover:bg-gray-200">
+          <a href="/tags/%E9%9B%86%E5%90%88/">集合</a>
+        </span>
+      
     
   </div>
-  
-  
+  <!-- prev and next -->
+  <div class="flex justify-between mt-12 pt-6 border-t border-gray-200">
+    <div>
+      
+    </div>
+    <div>
+      
+        <a href="/2025/10/15/Java%20%E9%9B%86%E5%90%88%E4%B8%AD%20fail-fast%20%E5%92%8C%20fail-safe/" class="text-sm text-gray-400 hover:text-gray-500 flex justify-center">
+          Java 集合中 fail-fast 和 fail-safe
+          <iconify-icon width="20" icon="ri:arrow-right-s-line" data-inline="false"></iconify-icon>
+        </a>
+      
+    </div>
+  </div>
+  <!-- comment -->
+  <div class="article-comments mt-12">
     
-    
-      <div class="relative pointer-events-none">
-        <span class="text-9xl opacity-10 absolute -left-11 -top-6 font-bold">2025</span>
-      </div>
-    
-    <a style="--stagger:0" href="/2025/10/15/SpringBoot%20%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8D%E6%B5%81%E7%A8%8B/" data-animate>
-      <header>
-        <h2 class="font-bold text-xl">
-          SpringBoot 自动装配流程
-        </h2>
-      </header>
-      <section class="text-gray-400 my-2 text-sm time">
-        <p class="line-clamp-4">
-          
-        </p>
-        <p class="line-clamp-4">
-          Oct 15
-          ·
-          3 min
-        </p>
-      </section>
-    </a>
-  
+<script
+  src="https://giscus.app/client.js"
+  data-repo="xbmlz/maple-giscus"
+  data-repo-id="R_kgDOIgC6Zg"
+  data-category="General"
+  data-category-id="DIC_kwDOIgC6Zs4CSwIE"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="bottom"
+  data-theme="preferred_color_scheme"
+  data-lang="zh-CN"
+  crossorigin="anonymous"
+  async
+></script>
+<script>
+  window.onload = function () {
+    console.log("giscus loaded");
+    const isDark = document.documentElement.classList.contains("dark");
+    const giscusFrame = document.querySelector("iframe.giscus-frame");
+    giscusFrame.contentWindow.postMessage(
+      {
+        giscus: {
+          setConfig: {
+            theme: isDark ? "dark" : "light",
+          },
+        },
+      },
+      "https://giscus.app"
+    );
+  };
+</script>
 
+
+  </div>
 </section>
+<!-- js inspect -->
 
+<script src="/lib/clipboard.min.js"></script>
+
+
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+  });
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<script>
+  $(document).ready(() => {
+    const maraidConfig = {
+      theme: "default",
+      logLevel: 3,
+      flowchart: { curve: "linear" },
+      gantt: { axisFormat: "%m/%d/%Y" },
+      sequence: { actorMargin: 50 },
+    };
+    mermaid.initialize(maraidConfig);
+  });
+</script>
+
+
+
+<script src="/lib/fancybox/fancybox.umd.min.js"></script>
+
+<script>
+  $(document).ready(() => {
+    $('.post-content').each(function(i){
+      $(this).find('img').each(function(){
+        if ($(this).parent().hasClass('fancybox') || $(this).parent().is('a')) return;
+        var alt = this.alt;
+        if (alt) $(this).after('<span class="fancybox-alt">' + alt + '</span>');
+        $(this).wrap('<a class="fancybox-img" href="' + this.src + '" data-fancybox=\"gallery\" data-caption="' + alt + '"></a>')
+      });
+      $(this).find('.fancybox').each(function(){
+        $(this).attr('rel', 'article' + i);
+      });
+    });
+
+    Fancybox.bind('[data-fancybox="gallery"]', {
+        // options
+    })
+  })
+</script>
+
+<!-- tocbot begin -->
+
+<script src="/lib/tocbot/tocbot.min.js"></script>
+
+<script>
+  $(document).ready(() => {
+      tocbot.init({
+        // Where to render the table of contents.
+        tocSelector: '.post-toc',
+        // Where to grab the headings to build the table of contents.
+        contentSelector: '.post-content',
+        // Which headings to grab inside of the contentSelector element.
+        headingSelector: 'h1, h2, h3',
+        // For headings inside relative or absolute positioned containers within content.
+        hasInnerContainers: true,
+    });
+  })
+</script>
+<!-- tocbot end -->
 
 
   </main>

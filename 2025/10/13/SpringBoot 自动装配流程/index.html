@@ -37,7 +37,7 @@
 
 
 
-<title>Hexo 学习笔记(2) | Straw</title>
+<title>SpringBoot 自动装配流程 | Straw</title>
 
 
 
@@ -214,7 +214,7 @@
         </h2>
       </a>
       <div id="header-title" class="opacity-0 md:ml-2 md:mt-[0.1rem] text-xs font-medium whitespace-nowrap overflow-hidden overflow-ellipsis">
-        Hexo 学习笔记(2)
+        SpringBoot 自动装配流程
       </div>
       <div class="flex-1"></div>
       <div class="flex items-center gap-3">
@@ -298,29 +298,29 @@
   <header class="overflow-hidden pt-6 pb-6 md:pt-12">
     <div class="pt-4 md:pt-6">
       <h1 id="article-title" class="text-[2rem] font-bold leading-snug mb-4 md:mb-6 md:text-[2.6rem]">
-        Hexo 学习笔记(2)
+        SpringBoot 自动装配流程
       </h1>
       <div>
         <section class="flex items-center gap-3 text-sm">
           <span class="flex items-center gap-1">
             <iconify-icon width="18" icon="carbon-calendar" ></iconify-icon>
-            <time>2025-10-12</time>
+            <time>2025-10-15</time>
           </span>
           <span class="text-gray-400">·</span>
           <span class="flex items-center gap-1">
             <iconify-icon width="18" icon="ic:round-access-alarm" ></iconify-icon>
-            <span>4 min</span>
+            <span>3 min</span>
           </span>
           <span class="text-gray-400">·</span>
           <span class="flex items-center gap-1">
             <iconify-icon width="18" icon="icon-park-outline:font-search" ></iconify-icon>
-            <span>1k words</span>
+            <span>877 words</span>
           </span>
           
             <span class="text-gray-400">·</span>
             <span class="flex items-center gap-1">
               <iconify-icon width="16" icon="icon-park-outline:box" class="mr-2"></iconify-icon>
-              <a class="article-category-link" href="/categories/Hexo/">Hexo</a>
+              <a class="article-category-link" href="/categories/Spring-%E7%94%9F%E6%80%81%E6%A1%86%E6%9E%B6/">Spring 生态框架</a>
             </span>
           
         </section>
@@ -329,171 +329,131 @@
   </header>
   <!-- content -->
   <article class="post-content prose m-auto slide-enter-content dark:prose-invert">
-    <p>非常好 👍 我来给你一个<strong>从零开始搭建 GitHub Pages 博客系统的完整教程</strong>，适合 <strong>没有前端经验、只有一点点开发基础（如 Java&#x2F;Python 背景）</strong> 的人。整个流程可以在 <strong>30 分钟内跑通初版博客</strong>，后续再慢慢升级样式、添加评论系统、甚至自动部署文章。</p>
+    <p>Spring Boot 自动装配（Auto Configuration）是其“开箱即用”的核心机制之一，让开发者无需手动配置大量 XML 或 JavaConfig，即可快速启动一个应用。下面我会从整体流程、底层原理和源码关键路径三个层次帮你理清它的运行机制。</p>
 <hr>
-<h2 id="🧭-一、整体思路"><a href="#🧭-一、整体思路" class="headerlink" title="🧭 一、整体思路"></a>🧭 一、整体思路</h2><p>GitHub Pages 是 GitHub 提供的免费静态网站托管服务，可以直接把你仓库里的 HTML &#x2F; Markdown 文件发布成网页。<br>我们将用 <strong>Jekyll（或 Hugo）静态博客框架</strong> 来生成博客页面，并托管在 GitHub 上。</p>
-<p>推荐路线：</p>
+<h2 id="🌱-一、总体流程概览"><a href="#🌱-一、总体流程概览" class="headerlink" title="🌱 一、总体流程概览"></a>🌱 一、总体流程概览</h2><p>Spring Boot 自动装配的核心流程可以概括为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">@SpringBootApplication</span><br><span class="line">      ↓</span><br><span class="line">@EnableAutoConfiguration</span><br><span class="line">      ↓</span><br><span class="line">AutoConfigurationImportSelector</span><br><span class="line">      ↓</span><br><span class="line">读取 META-INF/spring.factories 或 META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports</span><br><span class="line">      ↓</span><br><span class="line">筛选符合条件的自动配置类</span><br><span class="line">      ↓</span><br><span class="line">通过 @Conditional 系列注解决定是否生效</span><br><span class="line">      ↓</span><br><span class="line">注册 Bean 到 IOC 容器</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="🚀-二、关键注解解析"><a href="#🚀-二、关键注解解析" class="headerlink" title="🚀 二、关键注解解析"></a>🚀 二、关键注解解析</h2><h3 id="1️⃣-SpringBootApplication"><a href="#1️⃣-SpringBootApplication" class="headerlink" title="1️⃣ @SpringBootApplication"></a>1️⃣ <code>@SpringBootApplication</code></h3><p>它其实是一个组合注解，等价于：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootConfiguration</span></span><br><span class="line"><span class="meta">@EnableAutoConfiguration</span></span><br><span class="line"><span class="meta">@ComponentScan</span></span><br></pre></td></tr></table></figure>
+
+<p>重点在第二个：<code>@EnableAutoConfiguration</code>，它才是触发自动装配的入口。</p>
+<hr>
+<h3 id="2️⃣-EnableAutoConfiguration"><a href="#2️⃣-EnableAutoConfiguration" class="headerlink" title="2️⃣ @EnableAutoConfiguration"></a>2️⃣ <code>@EnableAutoConfiguration</code></h3><p>源码定义：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Import(AutoConfigurationImportSelector.class)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> EnableAutoConfiguration &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <blockquote>
-<p><strong>简单版（推荐入门）</strong>：使用 GitHub 官方 Jekyll 模板 → 一键建站<br><strong>进阶版（后续可选）</strong>：用 Hugo &#x2F; Hexo 自定义主题、自动部署</p>
+<p>👉 意味着它通过 <code>@Import</code> 把 <code>AutoConfigurationImportSelector</code> 导入到 Spring 容器。</p>
 </blockquote>
 <hr>
-<h2 id="🚀-二、准备工作"><a href="#🚀-二、准备工作" class="headerlink" title="🚀 二、准备工作"></a>🚀 二、准备工作</h2><h3 id="1️⃣-注册-GitHub-账号"><a href="#1️⃣-注册-GitHub-账号" class="headerlink" title="1️⃣ 注册 GitHub 账号"></a>1️⃣ 注册 GitHub 账号</h3><p>👉 <a target="_blank" rel="noopener" href="https://github.com/">https://github.com</a></p>
-<h3 id="2️⃣-安装基础工具（本地可选）"><a href="#2️⃣-安装基础工具（本地可选）" class="headerlink" title="2️⃣ 安装基础工具（本地可选）"></a>2️⃣ 安装基础工具（本地可选）</h3><p>如果你只想用网页操作，可以跳过本地环境。<br>但如果想写 Markdown、调试样式，可以安装：</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://git-scm.com/downloads">Git</a></li>
-<li><a target="_blank" rel="noopener" href="https://code.visualstudio.com/">VS Code</a></li>
-<li><a target="_blank" rel="noopener" href="https://jekyllrb.com/docs/installation/">Ruby + Jekyll（可选）</a></li>
-</ul>
-<hr>
-<h2 id="🧱-三、创建博客仓库"><a href="#🧱-三、创建博客仓库" class="headerlink" title="🧱 三、创建博客仓库"></a>🧱 三、创建博客仓库</h2><h3 id="方式一：最简单的-GitHub-官方模板"><a href="#方式一：最简单的-GitHub-官方模板" class="headerlink" title="方式一：最简单的 GitHub 官方模板"></a>方式一：最简单的 GitHub 官方模板</h3><ol>
-<li><p>打开官方模板仓库<br>👉 <a target="_blank" rel="noopener" href="https://github.com/github/personal-website">https://github.com/github/personal-website</a></p>
-</li>
-<li><p>点击右上角 “<strong>Use this template → Create a new repository</strong>”<br>仓库命名非常重要：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">你的GitHub用户名.github.io</span><br></pre></td></tr></table></figure>
+<h3 id="3️⃣-AutoConfigurationImportSelector"><a href="#3️⃣-AutoConfigurationImportSelector" class="headerlink" title="3️⃣ AutoConfigurationImportSelector"></a>3️⃣ <code>AutoConfigurationImportSelector</code></h3><p>这个类是自动装配的“选择器”，它的作用是 <strong>动态地导入一批配置类</strong>。</p>
+<p>核心方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> String[] selectImports(AnnotationMetadata annotationMetadata)</span><br></pre></td></tr></table></figure>
 
-<p>例如用户名是 <code>straw88</code>，仓库名就必须是：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">straw88.github.io</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>点击 “Create repository”。</p>
-</li>
+<p>执行流程：</p>
+<ol>
+<li>从类路径下加载所有 <code>META-INF/spring.factories</code> 或新的 <code>META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports</code> 文件；</li>
+<li>找到 key 为 <code>org.springframework.boot.autoconfigure.EnableAutoConfiguration</code> 对应的 value；</li>
+<li>即所有自动配置类（如 <code>WebMvcAutoConfiguration</code>、<code>DataSourceAutoConfiguration</code> 等）；</li>
+<li>逐个判断是否满足条件（<code>@Conditional</code> 系列注解）；</li>
+<li>最终把符合条件的配置类注册到容器中。</li>
 </ol>
 <hr>
-<h2 id="🌐-四、启用-GitHub-Pages"><a href="#🌐-四、启用-GitHub-Pages" class="headerlink" title="🌐 四、启用 GitHub Pages"></a>🌐 四、启用 GitHub Pages</h2><ol>
-<li><p>打开仓库 → 点击上方的 <strong>Settings → Pages</strong></p>
-</li>
-<li><p>在 “<strong>Build and deployment</strong>” 区域中：</p>
-<ul>
-<li>Source 选：<code>Deploy from a branch</code></li>
-<li>Branch 选：<code>main</code>（或 <code>master</code>），文件夹选 <code>/root</code></li>
-</ul>
-</li>
-<li><p>保存后，等几十秒刷新页面，GitHub 会自动生成网址：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://你的用户名.github.io</span><br></pre></td></tr></table></figure></li>
-</ol>
-<p>🎉 打开就能看到初版网站。</p>
+<h2 id="🧩-三、底层实现机制详解"><a href="#🧩-三、底层实现机制详解" class="headerlink" title="🧩 三、底层实现机制详解"></a>🧩 三、底层实现机制详解</h2><h3 id="1️⃣-自动配置类加载来源"><a href="#1️⃣-自动配置类加载来源" class="headerlink" title="1️⃣ 自动配置类加载来源"></a>1️⃣ 自动配置类加载来源</h3><p>旧版本（Spring Boot 2.x）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">META-INF/spring.factories</span><br></pre></td></tr></table></figure>
+
+<p>内容示例：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">org.springframework.boot.autoconfigure.EnableAutoConfiguration</span>=<span class="string">\</span></span><br><span class="line"><span class="string">org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration,\</span></span><br><span class="line"><span class="string">org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration</span></span><br></pre></td></tr></table></figure>
+
+<p>新版本（Spring Boot 3.x 及以后）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports</span><br></pre></td></tr></table></figure>
+
+<p>每行列出一个自动配置类。</p>
 <hr>
-<h2 id="📝-五、添加你的第一篇文章"><a href="#📝-五、添加你的第一篇文章" class="headerlink" title="📝 五、添加你的第一篇文章"></a>📝 五、添加你的第一篇文章</h2><p>进入仓库 → <code>_posts</code> 文件夹（若没有可以自己建）。</p>
-<p>文件命名格式必须如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">YYYY-MM-DD-文章标题.md</span><br></pre></td></tr></table></figure>
+<h3 id="2️⃣-条件装配机制（核心）"><a href="#2️⃣-条件装配机制（核心）" class="headerlink" title="2️⃣ 条件装配机制（核心）"></a>2️⃣ 条件装配机制（核心）</h3><p>每个自动配置类上都有大量的 <code>@Conditional</code> 系列注解，例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@ConditionalOnClass(DataSource.class)</span></span><br><span class="line"><span class="meta">@ConditionalOnMissingBean(DataSource.class)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">DataSourceAutoConfiguration</span> &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>示例：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2025-10-09-hello-world.md</span><br></pre></td></tr></table></figure>
-
-<p>内容模板：</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">layout: post</span><br><span class="line">title: &quot;Hello World&quot;</span><br><span class="line"><span class="section">date: 2025-10-09</span></span><br><span class="line"><span class="section">---</span></span><br><span class="line"></span><br><span class="line">这是我的第一篇博客文章！</span><br></pre></td></tr></table></figure>
-
-<p>推送后，几分钟内 GitHub Pages 会自动更新。</p>
-<hr>
-<h2 id="🎨-六、修改主题与样式"><a href="#🎨-六、修改主题与样式" class="headerlink" title="🎨 六、修改主题与样式"></a>🎨 六、修改主题与样式</h2><p>打开 <code>_config.yml</code> 文件（在仓库根目录）：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">title:</span> <span class="string">Straw&#x27;s</span> <span class="string">Blog</span></span><br><span class="line"><span class="attr">description:</span> <span class="string">我的技术与生活记录</span></span><br><span class="line"><span class="attr">theme:</span> <span class="string">minima</span></span><br></pre></td></tr></table></figure>
-
-<p>常见主题：</p>
-<ul>
-<li><code>minima</code>（官方简洁主题）</li>
-<li><code>cayman</code></li>
-<li><code>jekyll-theme-slate</code></li>
-<li><code>jekyll-theme-midnight</code></li>
-</ul>
-<p>👉 全部主题列表在这里：<a target="_blank" rel="noopener" href="https://pages.github.com/themes/">https://pages.github.com/themes/</a></p>
-<p>改完保存推送即可生效。</p>
-<hr>
-<h2 id="💬-七、添加评论系统（进阶可选）"><a href="#💬-七、添加评论系统（进阶可选）" class="headerlink" title="💬 七、添加评论系统（进阶可选）"></a>💬 七、添加评论系统（进阶可选）</h2><p>如果你希望每篇文章下面可以评论，可选方案：</p>
+<p>这些注解是判断当前环境是否“符合自动配置条件”的关键。</p>
+<p>常见的条件注解有：</p>
 <table>
 <thead>
 <tr>
-<th>评论系统</th>
-<th>特点</th>
+<th>注解</th>
+<th>作用</th>
 </tr>
 </thead>
 <tbody><tr>
-<td><strong>giscus</strong></td>
-<td>基于 GitHub Discussions，零成本</td>
+<td><code>@ConditionalOnClass</code></td>
+<td>类路径中存在某个类</td>
 </tr>
 <tr>
-<td><strong>utterances</strong></td>
-<td>基于 issue 评论</td>
+<td><code>@ConditionalOnMissingBean</code></td>
+<td>容器中不存在某个 Bean</td>
 </tr>
 <tr>
-<td><strong>Disqus</strong></td>
-<td>第三方平台，国外主流，但广告多</td>
+<td><code>@ConditionalOnProperty</code></td>
+<td>配置文件中存在某个属性</td>
+</tr>
+<tr>
+<td><code>@ConditionalOnWebApplication</code></td>
+<td>当前是 Web 应用</td>
+</tr>
+<tr>
+<td><code>@ConditionalOnExpression</code></td>
+<td>SpEL 表达式为真</td>
 </tr>
 </tbody></table>
-<p>👉 推荐：<strong>giscus</strong>，官网：<a target="_blank" rel="noopener" href="https://giscus.app/">https://giscus.app/</a></p>
+<p>只有当所有条件满足时，该自动配置类才会生效。</p>
 <hr>
-<h2 id="⚙️-八、（进阶）自动部署写作工作流"><a href="#⚙️-八、（进阶）自动部署写作工作流" class="headerlink" title="⚙️ 八、（进阶）自动部署写作工作流"></a>⚙️ 八、（进阶）自动部署写作工作流</h2><p>每次手动提交太麻烦？可以用 <strong>GitHub Actions</strong> 自动生成博客：</p>
-<p>在仓库中新建 <code>.github/workflows/jekyll.yml</code>：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">Jekyll</span> <span class="string">site</span> <span class="string">CI</span></span><br><span class="line"><span class="attr">on:</span></span><br><span class="line">  <span class="attr">push:</span></span><br><span class="line">    <span class="attr">branches:</span> [ <span class="string">main</span> ]</span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">build:</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">uses:</span> <span class="string">actions/checkout@v3</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">uses:</span> <span class="string">actions/setup-ruby@v1</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">ruby-version:</span> <span class="number">3.1</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">run:</span> <span class="string">gem</span> <span class="string">install</span> <span class="string">bundler</span> <span class="string">jekyll</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">run:</span> <span class="string">jekyll</span> <span class="string">build</span></span><br></pre></td></tr></table></figure>
-
-<p>GitHub 会自动在你每次提交时重新生成网站。</p>
-<hr>
-<h2 id="📚-九、常见问题"><a href="#📚-九、常见问题" class="headerlink" title="📚 九、常见问题"></a>📚 九、常见问题</h2><table>
-<thead>
-<tr>
-<th>问题</th>
-<th>解决方法</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>网页 404</td>
-<td>检查仓库名是否为 <code>username.github.io</code></td>
-</tr>
-<tr>
-<td>页面没更新</td>
-<td>等 1~3 分钟，或在 Pages 页面点 “Rebuild”</td>
-</tr>
-<tr>
-<td>样式错乱</td>
-<td>清浏览器缓存或改主题重新部署</td>
-</tr>
-</tbody></table>
-<hr>
-<h2 id="🌟-十、扩展建议"><a href="#🌟-十、扩展建议" class="headerlink" title="🌟 十、扩展建议"></a>🌟 十、扩展建议</h2><p>如果你想要更漂亮、更可控的博客系统：</p>
+<h3 id="3️⃣-Bean-的注册阶段"><a href="#3️⃣-Bean-的注册阶段" class="headerlink" title="3️⃣ Bean 的注册阶段"></a>3️⃣ Bean 的注册阶段</h3><p>在 <code>ConfigurationClassPostProcessor</code> 中解析 <code>@Configuration</code> 类，<br>并通过 <code>BeanDefinitionReader</code> 把自动配置类注册成 BeanDefinition。</p>
+<p>最终进入容器的 Bean 来自：</p>
 <ul>
-<li><strong>Hexo</strong>（Node.js） → 适合程序员，主题多<br>官网：<a target="_blank" rel="noopener" href="https://hexo.io/">https://hexo.io/</a></li>
-<li><strong>Hugo</strong>（Go语言） → 构建速度极快<br>官网：<a target="_blank" rel="noopener" href="https://gohugo.io/">https://gohugo.io/</a></li>
-<li><strong>VuePress &#x2F; Astro</strong> → 更现代的前端静态站方案</li>
+<li>用户自定义的 <code>@Bean</code> 或 <code>@Component</code></li>
+<li>框架提供的自动配置类（<code>@EnableAutoConfiguration</code>）</li>
 </ul>
 <hr>
-<h2 id="✅-总结：最小可行博客搭建清单"><a href="#✅-总结：最小可行博客搭建清单" class="headerlink" title="✅ 总结：最小可行博客搭建清单"></a>✅ 总结：最小可行博客搭建清单</h2><table>
+<h2 id="🧠-四、举例理解"><a href="#🧠-四、举例理解" class="headerlink" title="🧠 四、举例理解"></a>🧠 四、举例理解</h2><p>比如 <code>WebMvcAutoConfiguration</code>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration(proxyBeanMethods = false)</span></span><br><span class="line"><span class="meta">@ConditionalOnClass(&#123; Servlet.class, DispatcherServlet.class &#125;)</span></span><br><span class="line"><span class="meta">@ConditionalOnWebApplication(type = Type.SERVLET)</span></span><br><span class="line"><span class="meta">@AutoConfigureAfter(DispatcherServletAutoConfiguration.class)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">WebMvcAutoConfiguration</span> &#123;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="meta">@ConditionalOnMissingBean</span></span><br><span class="line">    <span class="keyword">public</span> InternalResourceViewResolver <span class="title function_">defaultViewResolver</span><span class="params">()</span> &#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>➡️ 含义：</p>
+<ul>
+<li>只有在 Web 环境下；</li>
+<li>且类路径中存在 <code>DispatcherServlet</code>；</li>
+<li>且没有用户自定义的 <code>ViewResolver</code>；</li>
+<li>才自动注册一个默认的 <code>ViewResolver</code>。</li>
+</ul>
+<hr>
+<h2 id="🧩-五、调试技巧"><a href="#🧩-五、调试技巧" class="headerlink" title="🧩 五、调试技巧"></a>🧩 五、调试技巧</h2><p>想看当前哪些自动配置类生效：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar app.jar --debug</span><br></pre></td></tr></table></figure>
+
+<p>控制台会打印：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">============================</span><br><span class="line">CONDITIONS EVALUATION REPORT</span><br><span class="line">============================</span><br><span class="line">Positive matches:</span><br><span class="line">   WebMvcAutoConfiguration matched</span><br><span class="line"></span><br><span class="line">Negative matches:</span><br><span class="line">   MongoAutoConfiguration did not match</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="🧭-六、总结思维导图"><a href="#🧭-六、总结思维导图" class="headerlink" title="🧭 六、总结思维导图"></a>🧭 六、总结思维导图</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">@SpringBootApplication</span><br><span class="line">   ↓</span><br><span class="line">@EnableAutoConfiguration</span><br><span class="line">   ↓</span><br><span class="line">@Import(AutoConfigurationImportSelector)</span><br><span class="line">   ↓</span><br><span class="line">读取 spring.factories / AutoConfiguration.imports</span><br><span class="line">   ↓</span><br><span class="line">加载自动配置类列表</span><br><span class="line">   ↓</span><br><span class="line">根据 @Conditional 条件筛选</span><br><span class="line">   ↓</span><br><span class="line">注册 BeanDefinition</span><br><span class="line">   ↓</span><br><span class="line">IOC容器初始化完成</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="💡-七、扩展思考"><a href="#💡-七、扩展思考" class="headerlink" title="💡 七、扩展思考"></a>💡 七、扩展思考</h2><table>
 <thead>
 <tr>
-<th>步骤</th>
+<th>方向</th>
 <th>说明</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>1</td>
-<td>注册 GitHub</td>
+<td><strong>手写自定义自动配置</strong></td>
+<td>新建配置类 + <code>@Configuration</code> + <code>@ConditionalOnXxx</code> + 注册到 <code>META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports</code></td>
 </tr>
 <tr>
-<td>2</td>
-<td>Fork 官方模板（或自己创建仓库）</td>
+<td><strong>禁用某个自动配置</strong></td>
+<td><code>@SpringBootApplication(exclude = &#123;DataSourceAutoConfiguration.class&#125;)</code> 或 <code>spring.autoconfigure.exclude</code></td>
 </tr>
 <tr>
-<td>3</td>
-<td>启用 GitHub Pages</td>
-</tr>
-<tr>
-<td>4</td>
-<td>添加 <code>_posts</code> 文章</td>
-</tr>
-<tr>
-<td>5</td>
-<td>修改 <code>_config.yml</code> 个性化配置</td>
-</tr>
-<tr>
-<td>6</td>
-<td>打开 <code>https://用户名.github.io</code></td>
+<td><strong>查看所有自动配置类</strong></td>
+<td>查看 <code>spring-boot-autoconfigure</code> 包下的源码</td>
 </tr>
 </tbody></table>
-<hr>
-<p>如果你愿意，我可以帮你：</p>
-<ul>
-<li>🎨 选择一套好看的主题模板（比如极简科技风 &#x2F; 博客日志风）</li>
-<li>🧰 生成一份初始化配置文件 <code>_config.yml</code></li>
-<li>🪄 甚至一键生成你的第一篇 Markdown 博客</li>
-</ul>
-<p>你希望我帮你做到哪一步？（例如“生成模板仓库 + 首页 + 第一篇博文”）</p>
 
   </article>
   <!-- tag -->
@@ -501,11 +461,11 @@
     
       
         <span class="bg-gray-100 dark:bg-gray-700 px-2 py-1 m-1 text-sm rounded-md transition-colors hover:bg-gray-200">
-          <a href="/tags/github-page/">github page</a>
+          <a href="/tags/SpringBoot/">SpringBoot</a>
         </span>
       
         <span class="bg-gray-100 dark:bg-gray-700 px-2 py-1 m-1 text-sm rounded-md transition-colors hover:bg-gray-200">
-          <a href="/tags/hexo/">hexo</a>
+          <a href="/tags/Spring/">Spring</a>
         </span>
       
     
@@ -514,16 +474,11 @@
   <div class="flex justify-between mt-12 pt-6 border-t border-gray-200">
     <div>
       
-        <a href="/2025/10/12/Java%20%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/" class="text-sm text-gray-400 hover:text-gray-500 flex justify-center">
-          <iconify-icon width="20" icon="ri:arrow-left-s-line" data-inline="false"></iconify-icon>
-          Java 集合框架常用方法总结
-        </a>
-      
     </div>
     <div>
       
-        <a href="/2025/10/09/hello-world/" class="text-sm text-gray-400 hover:text-gray-500 flex justify-center">
-          Hexo 学习笔记(1)
+        <a href="/2025/10/13/String%20%E7%9B%B8%E5%85%B3%E9%9D%A2%E8%AF%95%E9%A2%98/" class="text-sm text-gray-400 hover:text-gray-500 flex justify-center">
+          String 相关面试题
           <iconify-icon width="20" icon="ri:arrow-right-s-line" data-inline="false"></iconify-icon>
         </a>
       

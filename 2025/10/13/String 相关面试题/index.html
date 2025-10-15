@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-EHXM4GYP5W"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-EHXM4GYP5W');
+</script>
+<!-- End Google Analytics -->
+
+
+
+<!-- Baidu Analytics -->
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?0a6515fb9c839d6a56d4cfd8b7d243d4";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+<!-- End Baidu Analytics -->
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <meta name="author" content="John Doe">
+
+
+
+
+
+<title>String 相关面试题 | Straw</title>
+
+
+
+<link rel="icon" href="/favicon.ico">
+
+
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/nprogress/nprogress.css">
+
+
+
+<script src="/lib/jquery.min.js"></script>
+
+
+<script src="/lib/iconify-icon.min.js"></script>
+
+
+<script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+<script>
+  tailwind.config = {
+    darkMode: "class",
+  };
+</script>
+
+
+<script src="/lib/nprogress/nprogress.js"></script>
+
+<script>
+  $(document).ready(() => {
+    NProgress.configure({
+      showSpinner: false,
+    });
+    NProgress.start();
+    $("#nprogress .bar").css({
+      background: "#de7441",
+    });
+    $("#nprogress .peg").css({
+      "box-shadow": "0 0 2px #de7441, 0 0 4px #de7441",
+    });
+    $("#nprogress .spinner-icon").css({
+      "border-top-color": "#de7441",
+      "border-left-color": "#de7441",
+    });
+    setTimeout(function () {
+      NProgress.done();
+      $(".fade").removeClass("out");
+    }, 800);
+  });
+</script>
+
+<script>
+  (function () {
+    const prefersDark =
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const setting = localStorage.getItem("hexo-color-scheme") || "auto";
+    if (setting === "dark" || (prefersDark && setting !== "light"))
+      document.documentElement.classList.toggle("dark", true);
+    let isDark = document.documentElement.classList.contains("dark");
+  })();
+
+  $(document).ready(function () {
+    // init icon
+    const prefersDark =
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const isDark = document.documentElement.classList.contains("dark");
+    $("#theme-icon").attr("icon", isDark ? "ri:moon-line" : "ri:sun-line");
+
+    function toggleGiscusTheme() {
+      const isDark = document.documentElement.classList.contains("dark");
+      const giscusFrame = document.querySelector("iframe.giscus-frame");
+      if (giscusFrame) {
+        giscusFrame.contentWindow.postMessage(
+          {
+            giscus: {
+              setConfig: {
+                theme: isDark ? "dark" : "light",
+              },
+            },
+          },
+          "https://giscus.app"
+        );
+      }
+    }
+
+    // toggle dark mode
+    function toggleDark() {
+      let isDark = document.documentElement.classList.contains("dark");
+      const setting = localStorage.getItem("hexo-color-scheme") || "auto";
+      isDark = !isDark;
+      document.documentElement.classList.toggle("dark", isDark);
+      $("#theme-icon").attr("icon", isDark ? "ri:moon-line" : "ri:sun-line");
+      if (prefersDark === isDark) {
+        localStorage.setItem("hexo-color-scheme", "auto");
+      } else {
+        localStorage.setItem("hexo-color-scheme", isDark ? "dark" : "light");
+      }
+      toggleGiscusTheme();
+    }
+
+    // listen dark mode change
+    window
+      .matchMedia("(prefers-color-scheme: dark)")
+      .addEventListener("change", (e) => {
+        const setting = localStorage.getItem("hexo-color-scheme") || "auto";
+        if (setting === "auto") {
+          document.documentElement.classList.toggle("dark", e.matches);
+          $("#theme-icon").attr(
+            "icon",
+            e.matches ? "ri:moon-line" : "ri:sun-line"
+          );
+          toggleGiscusTheme();
+        }
+      });
+
+    $("#toggle-dark").click((event) => {
+      const isAppearanceTransition = document.startViewTransition && !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      if (!isAppearanceTransition) {
+        toggleDark()
+        return
+      }
+      const x = event.clientX
+      const y = event.clientY
+      const endRadius = Math.hypot(
+        Math.max(x, innerWidth - x),
+        Math.max(y, innerHeight - y),
+      )
+      const transition = document.startViewTransition(async () => {
+        toggleDark()
+      })
+
+      transition.ready
+        .then(() => {
+          const isDark = document.documentElement.classList.contains("dark")
+          const clipPath = [
+            `circle(0px at ${x}px ${y}px)`,
+            `circle(${endRadius}px at ${x}px ${y}px)`,
+          ]
+          document.documentElement.animate(
+            {
+              clipPath: isDark
+                ? [...clipPath].reverse()
+                : clipPath,
+            },
+            {
+              duration: 400,
+              easing: 'ease-out',
+              pseudoElement: isDark
+                ? '::view-transition-old(root)'
+                : '::view-transition-new(root)',
+            },
+          )
+        })
+    });
+  });
+</script>
+
+
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body class="font-sans bg-white dark:bg-zinc-900 text-gray-700 dark:text-gray-200 relative">
+  <header class="fixed w-full px-5 py-1 z-10 backdrop-blur-xl backdrop-saturate-150 border-b border-black/5">
+  <div class="max-auto">
+    <nav class="flex items-center text-base">
+      <a href="/" class="group">
+        <h2 class="font-medium tracking-tighterp text-l p-2">
+          <img class="w-5 mr-2 inline-block transition-transform group-hover:rotate-[30deg]" id="logo" src="/img/logo.svg" alt="Straw" />
+          Straw
+        </h2>
+      </a>
+      <div id="header-title" class="opacity-0 md:ml-2 md:mt-[0.1rem] text-xs font-medium whitespace-nowrap overflow-hidden overflow-ellipsis">
+        String 相关面试题
+      </div>
+      <div class="flex-1"></div>
+      <div class="flex items-center gap-3">
+        
+          <a class="hidden sm:flex" href="/archives">Posts</a>
+        
+          <a class="hidden sm:flex" href="/category">Categories</a>
+        
+          <a class="hidden sm:flex" href="/tag">Tags</a>
+        
+        
+          
+            <a class="w-5 h-5 hidden sm:flex" title="Github" target="_blank" rel="noopener" href="https://github.com/xbmlz">
+              <iconify-icon width="20" icon="ri:github-line"></iconify-icon>
+            </a>
+          
+            <a class="w-5 h-5 hidden sm:flex" title="ZhiHu" target="_blank" rel="noopener" href="https://www.zhihu.com/people/xc-chen-62">
+              <iconify-icon width="20" icon="ri:zhihu-line"></iconify-icon>
+            </a>
+          
+            <a class="w-5 h-5 hidden sm:flex" title="Twitter" target="_blank" rel="noopener" href="https://twitter.com/chenxia86081267">
+              <iconify-icon width="20" icon="ri:twitter-line"></iconify-icon>
+            </a>
+          
+        
+        <a class="w-5 h-5 hidden sm:flex" title="Twitter" href="rss2.xml">
+          <iconify-icon width="20" icon="ri:rss-line"></iconify-icon>
+        </a>
+        <a class="w-5 h-5" title="toggle theme" id="toggle-dark">
+          <iconify-icon width="20" icon="" id="theme-icon"></iconify-icon>
+        </a>
+      </div>
+      <div class="flex items-center justify-center gap-3 ml-3 sm:hidden">
+        <span class="w-5 h-5" aria-hidden="true" role="img" id="open-menu">
+          <iconify-icon width="20" icon="carbon:menu" ></iconify-icon>
+        </span>
+        <span class="w-5 h-5 hidden" aria-hidden="true" role="img" id="close-menu">
+          <iconify-icon  width="20" icon="carbon:close" ></iconify-icon>
+        </span>
+      </div>
+    </nav>
+  </div>
+</header>
+<div id="menu-panel" class="h-0 overflow-hidden sm:hidden fixed left-0 right-0 top-12 bottom-0 z-10">
+  <div id="menu-content" class="relative z-20 bg-white/80 px-6 sm:px-8 py-2 backdrop-blur-xl -translate-y-full transition-transform duration-300">
+    <ul class="nav flex flex-col sm:flex-row text-sm font-medium">
+      
+        <li class="nav-portfolio sm:mx-2 border-b sm:border-0 border-black/5 last:border-0 hover:text-main">
+          <a href="/archives" class="flex h-12 sm:h-auto items-center">Posts</a>
+        </li>
+      
+        <li class="nav-portfolio sm:mx-2 border-b sm:border-0 border-black/5 last:border-0 hover:text-main">
+          <a href="/category" class="flex h-12 sm:h-auto items-center">Categories</a>
+        </li>
+      
+        <li class="nav-portfolio sm:mx-2 border-b sm:border-0 border-black/5 last:border-0 hover:text-main">
+          <a href="/tag" class="flex h-12 sm:h-auto items-center">Tags</a>
+        </li>
+      
+    </ul>
+  </div>
+  <div class="mask bg-black/20 absolute inset-0"></div>
+</div>
+
+  <main class="pt-14">
+    <!-- css -->
+
+<link rel="stylesheet" href="/lib/fancybox/fancybox.min.css">
+
+
+<link rel="stylesheet" href="/lib/tocbot/tocbot.min.css">
+
+<!-- toc -->
+
+  <!-- tocbot -->
+<nav class="post-toc toc text-sm w-48 relative top-32 right-0 opacity-70 hidden lg:block" style="position: fixed !important;"></nav>
+
+
+<section class="px-6 max-w-prose mx-auto md:px-0">
+  <!-- header -->
+  <header class="overflow-hidden pt-6 pb-6 md:pt-12">
+    <div class="pt-4 md:pt-6">
+      <h1 id="article-title" class="text-[2rem] font-bold leading-snug mb-4 md:mb-6 md:text-[2.6rem]">
+        String 相关面试题
+      </h1>
+      <div>
+        <section class="flex items-center gap-3 text-sm">
+          <span class="flex items-center gap-1">
+            <iconify-icon width="18" icon="carbon-calendar" ></iconify-icon>
+            <time>2025-10-13</time>
+          </span>
+          <span class="text-gray-400">·</span>
+          <span class="flex items-center gap-1">
+            <iconify-icon width="18" icon="ic:round-access-alarm" ></iconify-icon>
+            <span>5 min</span>
+          </span>
+          <span class="text-gray-400">·</span>
+          <span class="flex items-center gap-1">
+            <iconify-icon width="18" icon="icon-park-outline:font-search" ></iconify-icon>
+            <span>1.3k words</span>
+          </span>
+          
+            <span class="text-gray-400">·</span>
+            <span class="flex items-center gap-1">
+              <iconify-icon width="16" icon="icon-park-outline:box" class="mr-2"></iconify-icon>
+              <a class="article-category-link" href="/categories/Java-%E5%9F%BA%E7%A1%80/">Java 基础</a>
+            </span>
+          
+        </section>
+      </div>
+    </div>
+  </header>
+  <!-- content -->
+  <article class="post-content prose m-auto slide-enter-content dark:prose-invert">
+    <h3 id="1-String-是什么？能继承吗？"><a href="#1-String-是什么？能继承吗？" class="headerlink" title="1. String 是什么？能继承吗？"></a>1. String 是什么？能继承吗？</h3><ul>
+<li><code>String</code> 是 <strong>final 修饰</strong> 的类，<strong>不可继承</strong>。</li>
+<li>内部使用 <strong>char[]（JDK 9+ 用 byte[]）</strong> 存储字符。</li>
+<li><strong>不可变（immutable）</strong> 的类。</li>
+</ul>
+<h3 id="2-为什么-String-是不可变的？"><a href="#2-为什么-String-是不可变的？" class="headerlink" title="2. 为什么 String 是不可变的？"></a>2. 为什么 String 是不可变的？</h3><ul>
+<li>底层 <code>value[]</code> 被 <code>final</code> 修饰。</li>
+<li>没有提供修改内部数组的接口。</li>
+<li>安全、线程安全、缓存 hashcode、String Pool 优化等原因。</li>
+</ul>
+<h3 id="3-String、StringBuffer、StringBuilder-区别？"><a href="#3-String、StringBuffer、StringBuilder-区别？" class="headerlink" title="3. String、StringBuffer、StringBuilder 区别？"></a>3. String、StringBuffer、StringBuilder 区别？</h3><table>
+<thead>
+<tr>
+<th>特性</th>
+<th>String</th>
+<th>StringBuilder</th>
+<th>StringBuffer</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>可变性</td>
+<td>不可变</td>
+<td>可变</td>
+<td>可变</td>
+</tr>
+<tr>
+<td>线程安全</td>
+<td>✅ 安全（不可变）</td>
+<td>❌ 不安全</td>
+<td>✅ 安全（加锁）</td>
+</tr>
+<tr>
+<td>性能</td>
+<td>慢</td>
+<td>快</td>
+<td>较慢</td>
+</tr>
+<tr>
+<td>适用场景</td>
+<td>少量字符串拼接</td>
+<td>单线程拼接</td>
+<td>多线程拼接</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="🧠-二、String-常见操作与陷阱题"><a href="#🧠-二、String-常见操作与陷阱题" class="headerlink" title="🧠 二、String 常见操作与陷阱题"></a>🧠 二、String 常见操作与陷阱题</h2><h3 id="4-与-equals-的区别？"><a href="#4-与-equals-的区别？" class="headerlink" title="4. == 与 .equals() 的区别？"></a>4. <code>==</code> 与 <code>.equals()</code> 的区别？</h3><ul>
+<li><code>==</code> 比较的是<strong>引用地址</strong>。</li>
+<li><code>.equals()</code> 比较的是<strong>内容</strong>（String 重写了 equals）。</li>
+</ul>
+<p>示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">a</span> <span class="operator">=</span> <span class="string">&quot;hello&quot;</span>;</span><br><span class="line"><span class="type">String</span> <span class="variable">b</span> <span class="operator">=</span> <span class="string">&quot;hello&quot;</span>;</span><br><span class="line">System.out.println(a == b); <span class="comment">// true（同字符串常量池）</span></span><br><span class="line">System.out.println(a.equals(b)); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="5-String-intern-的作用？"><a href="#5-String-intern-的作用？" class="headerlink" title="5. String.intern() 的作用？"></a>5. <code>String.intern()</code> 的作用？</h3><ul>
+<li>将字符串放入 <strong>字符串常量池（String Pool）</strong> 中。</li>
+<li>如果池中已有相同内容，则返回已有引用。</li>
+</ul>
+<p>面试题示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">s1</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(<span class="string">&quot;abc&quot;</span>);</span><br><span class="line"><span class="type">String</span> <span class="variable">s2</span> <span class="operator">=</span> s1.intern();</span><br><span class="line"><span class="type">String</span> <span class="variable">s3</span> <span class="operator">=</span> <span class="string">&quot;abc&quot;</span>;</span><br><span class="line">System.out.println(s1 == s2); <span class="comment">// false（JDK7前）</span></span><br><span class="line">System.out.println(s2 == s3); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+
+<p>（JDK 7 之后 intern() 会把引用存入常量池，有差异）</p>
+<hr>
+<h2 id="💡-三、字符串拼接与性能问题"><a href="#💡-三、字符串拼接与性能问题" class="headerlink" title="💡 三、字符串拼接与性能问题"></a>💡 三、字符串拼接与性能问题</h2><h3 id="6-a-b-与-new-String-ab-有什么区别？"><a href="#6-a-b-与-new-String-ab-有什么区别？" class="headerlink" title="6. &quot;a&quot; + &quot;b&quot; 与 new String(&quot;ab&quot;) 有什么区别？"></a>6. <code>&quot;a&quot; + &quot;b&quot;</code> 与 <code>new String(&quot;ab&quot;)</code> 有什么区别？</h3><ul>
+<li><code>&quot;a&quot; + &quot;b&quot;</code> 在编译期优化为 <code>&quot;ab&quot;</code>（常量折叠）。</li>
+<li><code>new String(&quot;ab&quot;)</code> 会创建新对象，堆内存在常量池之外。</li>
+</ul>
+<h3 id="7-多次拼接字符串的性能问题？"><a href="#7-多次拼接字符串的性能问题？" class="headerlink" title="7. 多次拼接字符串的性能问题？"></a>7. 多次拼接字符串的性能问题？</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">s</span> <span class="operator">=</span> <span class="string">&quot;&quot;</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">10000</span>; i++) &#123;</span><br><span class="line">    s += i;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>编译器会不断创建新的 String 对象，性能极差。</p>
+</blockquote>
+<p>✅ 正确做法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">StringBuilder</span> <span class="variable">sb</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuilder</span>();</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">10000</span>; i++) &#123;</span><br><span class="line">    sb.append(i);</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">String</span> <span class="variable">result</span> <span class="operator">=</span> sb.toString();</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="⚙️-四、String-底层原理与源码"><a href="#⚙️-四、String-底层原理与源码" class="headerlink" title="⚙️ 四、String 底层原理与源码"></a>⚙️ 四、String 底层原理与源码</h2><h3 id="8-JDK-9-之后-String-改了什么？"><a href="#8-JDK-9-之后-String-改了什么？" class="headerlink" title="8. JDK 9 之后 String 改了什么？"></a>8. JDK 9 之后 String 改了什么？</h3><ul>
+<li>由 <code>char[]</code> → <code>byte[] + coder</code></li>
+<li>减少内存占用（Latin1 编码时仅需 1 字节&#x2F;字符）</li>
+</ul>
+<h3 id="9-String-的-hashCode-如何计算？"><a href="#9-String-的-hashCode-如何计算？" class="headerlink" title="9. String 的 hashCode() 如何计算？"></a>9. String 的 <code>hashCode()</code> 如何计算？</h3><p>源码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">hashCode</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">h</span> <span class="operator">=</span> hash;</span><br><span class="line">    <span class="keyword">if</span> (h == <span class="number">0</span> &amp;&amp; value.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">char</span> c : value) &#123;</span><br><span class="line">            h = <span class="number">31</span> * h + c;</span><br><span class="line">        &#125;</span><br><span class="line">        hash = h;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> h;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>使用 31 是因为：</p>
+<ul>
+<li>乘法与加法混合分布好；</li>
+<li>可被优化为 <code>(h &lt;&lt; 5) - h</code>。</li>
+</ul>
+</blockquote>
+<hr>
+<h2 id="🧮-五、String-常量池与内存分布"><a href="#🧮-五、String-常量池与内存分布" class="headerlink" title="🧮 五、String 常量池与内存分布"></a>🧮 五、String 常量池与内存分布</h2><h3 id="10-String-存放在哪里？"><a href="#10-String-存放在哪里？" class="headerlink" title="10. String 存放在哪里？"></a>10. String 存放在哪里？</h3><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>存储位置</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>字符串常量</td>
+<td>方法区（JDK 8 前）&#x2F; 元空间（JDK 8 后）</td>
+</tr>
+<tr>
+<td>new 创建的字符串</td>
+<td>堆内存</td>
+</tr>
+<tr>
+<td>intern() 后</td>
+<td>常量池</td>
+</tr>
+</tbody></table>
+<h3 id="11-String-Pool-的生命周期？"><a href="#11-String-Pool-的生命周期？" class="headerlink" title="11. String Pool 的生命周期？"></a>11. String Pool 的生命周期？</h3><ul>
+<li>在 JVM 启动时加载。</li>
+<li>JVM 退出时销毁。</li>
+<li>常量池中字符串 <strong>不会被 GC 回收</strong>（除非类卸载）。</li>
+</ul>
+<hr>
+<h2 id="🧷-六、常见陷阱与面试题实战"><a href="#🧷-六、常见陷阱与面试题实战" class="headerlink" title="🧷 六、常见陷阱与面试题实战"></a>🧷 六、常见陷阱与面试题实战</h2><h3 id="12-面试题：下面输出什么？"><a href="#12-面试题：下面输出什么？" class="headerlink" title="12. 面试题：下面输出什么？"></a>12. 面试题：下面输出什么？</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">s1</span> <span class="operator">=</span> <span class="string">&quot;a&quot;</span>;</span><br><span class="line"><span class="type">String</span> <span class="variable">s2</span> <span class="operator">=</span> <span class="string">&quot;b&quot;</span>;</span><br><span class="line"><span class="type">String</span> <span class="variable">s3</span> <span class="operator">=</span> <span class="string">&quot;ab&quot;</span>;</span><br><span class="line"><span class="type">String</span> <span class="variable">s4</span> <span class="operator">=</span> s1 + s2;</span><br><span class="line">System.out.println(s3 == s4);</span><br></pre></td></tr></table></figure>
+
+<p>👉 输出：<code>false</code></p>
+<blockquote>
+<p>因为 s1 + s2 在运行期拼接，生成的是堆中对象。</p>
+</blockquote>
+<p>✅ 优化写法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">s4</span> <span class="operator">=</span> <span class="string">&quot;a&quot;</span> + <span class="string">&quot;b&quot;</span>; <span class="comment">// 编译期优化</span></span><br><span class="line">System.out.println(s3 == s4); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="🧱-七、String-的内存优化与安全性"><a href="#🧱-七、String-的内存优化与安全性" class="headerlink" title="🧱 七、String 的内存优化与安全性"></a>🧱 七、String 的内存优化与安全性</h2><h3 id="13-为什么-String-设计成不可变的？"><a href="#13-为什么-String-设计成不可变的？" class="headerlink" title="13. 为什么 String 设计成不可变的？"></a>13. 为什么 String 设计成不可变的？</h3><ul>
+<li>安全性（网络地址、文件路径、ClassLoader 等场景）</li>
+<li>线程安全</li>
+<li>可作为 HashMap 的 key</li>
+<li>可缓存 hashcode</li>
+<li>常量池复用节省内存</li>
+</ul>
+<h3 id="14-String-的不可变性如何体现？"><a href="#14-String-的不可变性如何体现？" class="headerlink" title="14. String 的不可变性如何体现？"></a>14. String 的不可变性如何体现？</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">s</span> <span class="operator">=</span> <span class="string">&quot;abc&quot;</span>;</span><br><span class="line">s.concat(<span class="string">&quot;d&quot;</span>);</span><br><span class="line">System.out.println(s); <span class="comment">// &quot;abc&quot;，未改变</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>concat() 返回新对象。</p>
+</blockquote>
+<hr>
+<h2 id="🔍-八、字符串与编码问题"><a href="#🔍-八、字符串与编码问题" class="headerlink" title="🔍 八、字符串与编码问题"></a>🔍 八、字符串与编码问题</h2><h3 id="15-getBytes-默认编码是什么？"><a href="#15-getBytes-默认编码是什么？" class="headerlink" title="15. getBytes() 默认编码是什么？"></a>15. <code>getBytes()</code> 默认编码是什么？</h3><ul>
+<li>取决于系统默认字符集，如 <code>UTF-8</code> 或 <code>GBK</code>。</li>
+<li>推荐显式指定：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">byte</span>[] data = str.getBytes(StandardCharsets.UTF_8);</span><br></pre></td></tr></table></figure>
+
+<h3 id="16-Unicode、UTF-8、UTF-16-区别？"><a href="#16-Unicode、UTF-8、UTF-16-区别？" class="headerlink" title="16. Unicode、UTF-8、UTF-16 区别？"></a>16. Unicode、UTF-8、UTF-16 区别？</h3><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Unicode</td>
+<td>字符集（抽象符号）</td>
+</tr>
+<tr>
+<td>UTF-8</td>
+<td>可变长编码，1~4字节</td>
+</tr>
+<tr>
+<td>UTF-16</td>
+<td>固定2或4字节</td>
+</tr>
+<tr>
+<td>Java内部编码</td>
+<td>UTF-16</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="🧰-九、String-高频面试小题集锦"><a href="#🧰-九、String-高频面试小题集锦" class="headerlink" title="🧰 九、String 高频面试小题集锦"></a>🧰 九、String 高频面试小题集锦</h2><table>
+<thead>
+<tr>
+<th>编号</th>
+<th>题目</th>
+<th>关键词</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>17</td>
+<td>为什么 String 是 final？</td>
+<td>不可变、安全、缓存</td>
+</tr>
+<tr>
+<td>18</td>
+<td><code>String.valueOf(null)</code> 会怎样？</td>
+<td>抛异常？→ <code>&quot;null&quot;</code></td>
+</tr>
+<tr>
+<td>19</td>
+<td><code>&quot;abc&quot;.replace(&quot;a&quot;, &quot;b&quot;)</code> 返回值？</td>
+<td><code>&quot;bbc&quot;</code></td>
+</tr>
+<tr>
+<td>20</td>
+<td><code>String.split()</code> 正则陷阱</td>
+<td><code>&quot;.&quot;</code> 要写成 <code>&quot;\\.&quot;</code></td>
+</tr>
+<tr>
+<td>21</td>
+<td><code>trim()</code> 去除哪些空白字符？</td>
+<td>仅 Unicode ≤ 32 的空白</td>
+</tr>
+<tr>
+<td>22</td>
+<td><code>substring()</code> 内存泄漏问题？</td>
+<td>JDK7前引用原char[]</td>
+</tr>
+<tr>
+<td>23</td>
+<td><code>StringJoiner</code> vs <code>StringBuilder</code></td>
+<td>专用于拼接分隔字符串</td>
+</tr>
+<tr>
+<td>24</td>
+<td><code>String.format()</code> 效率如何？</td>
+<td>慢，内部用 <code>Formatter</code></td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="🧩-十、延伸与源码层级问题"><a href="#🧩-十、延伸与源码层级问题" class="headerlink" title="🧩 十、延伸与源码层级问题"></a>🧩 十、延伸与源码层级问题</h2><h3 id="25-String-的-equalsIgnoreCase-原理？"><a href="#25-String-的-equalsIgnoreCase-原理？" class="headerlink" title="25. String 的 equalsIgnoreCase 原理？"></a>25. String 的 equalsIgnoreCase 原理？</h3><p>忽略大小写比较：<br>内部使用 <code>Character.toLowerCase()</code> 比较每个字符。</p>
+<h3 id="26-String-的-compareTo-实现？"><a href="#26-String-的-compareTo-实现？" class="headerlink" title="26. String 的 compareTo() 实现？"></a>26. String 的 compareTo() 实现？</h3><p>按字典序比较：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; minLength; i++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (char1 != char2)</span><br><span class="line">        <span class="keyword">return</span> char1 - char2;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> len1 - len2;</span><br></pre></td></tr></table></figure>
+
+<h3 id="27-String-与-char-互转？"><a href="#27-String-与-char-互转？" class="headerlink" title="27. String 与 char[] 互转？"></a>27. String 与 char[] 互转？</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span>[] arr = str.toCharArray();</span><br><span class="line"><span class="type">String</span> <span class="variable">s</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(arr);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="🧠-十一、面试高频总结口诀"><a href="#🧠-十一、面试高频总结口诀" class="headerlink" title="🧠 十一、面试高频总结口诀"></a>🧠 十一、面试高频总结口诀</h2><blockquote>
+<p>🔸 String 不可变<br>🔸 字面量进常量池<br>🔸 拼接看编译期<br>🔸 intern 决定引用池<br>🔸 equals 比内容<br>🔸 &#x3D;&#x3D; 比地址<br>🔸 StringBuilder 性能高<br>🔸 线程安全用 Buffer<br>🔸 JDK9 后是 byte[]</p>
+</blockquote>
+<hr>
+<h2 id="✅-面试建议："><a href="#✅-面试建议：" class="headerlink" title="✅ 面试建议："></a>✅ 面试建议：</h2><blockquote>
+<p>在实际面试中，String 题目大多考察：</p>
+</blockquote>
+<ol>
+<li><strong>不可变性 + 常量池</strong></li>
+<li><strong>拼接优化与性能</strong></li>
+<li><strong>intern() 行为差异（JDK7+）</strong></li>
+<li><strong>hashCode &#x2F; equals 实现原理</strong></li>
+<li><strong>内存结构与编码原理</strong></li>
+</ol>
+
+  </article>
+  <!-- tag -->
+  <div class="mt-12 pt-6 border-t border-gray-200">
+    
+      
+        <span class="bg-gray-100 dark:bg-gray-700 px-2 py-1 m-1 text-sm rounded-md transition-colors hover:bg-gray-200">
+          <a href="/tags/String/">String</a>
+        </span>
+      
+    
+  </div>
+  <!-- prev and next -->
+  <div class="flex justify-between mt-12 pt-6 border-t border-gray-200">
+    <div>
+      
+        <a href="/2025/10/13/SpringBoot%20%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8D%E6%B5%81%E7%A8%8B/" class="text-sm text-gray-400 hover:text-gray-500 flex justify-center">
+          <iconify-icon width="20" icon="ri:arrow-left-s-line" data-inline="false"></iconify-icon>
+          SpringBoot 自动装配流程
+        </a>
+      
+    </div>
+    <div>
+      
+        <a href="/2025/10/12/Java%20%E5%BC%80%E5%8F%91%E4%BD%93%E7%B3%BB%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%97/" class="text-sm text-gray-400 hover:text-gray-500 flex justify-center">
+          Java 开发体系学习指南
+          <iconify-icon width="20" icon="ri:arrow-right-s-line" data-inline="false"></iconify-icon>
+        </a>
+      
+    </div>
+  </div>
+  <!-- comment -->
+  <div class="article-comments mt-12">
+    
+<script
+  src="https://giscus.app/client.js"
+  data-repo="xbmlz/maple-giscus"
+  data-repo-id="R_kgDOIgC6Zg"
+  data-category="General"
+  data-category-id="DIC_kwDOIgC6Zs4CSwIE"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="bottom"
+  data-theme="preferred_color_scheme"
+  data-lang="zh-CN"
+  crossorigin="anonymous"
+  async
+></script>
+<script>
+  window.onload = function () {
+    console.log("giscus loaded");
+    const isDark = document.documentElement.classList.contains("dark");
+    const giscusFrame = document.querySelector("iframe.giscus-frame");
+    giscusFrame.contentWindow.postMessage(
+      {
+        giscus: {
+          setConfig: {
+            theme: isDark ? "dark" : "light",
+          },
+        },
+      },
+      "https://giscus.app"
+    );
+  };
+</script>
+
+
+  </div>
+</section>
+<!-- js inspect -->
+
+<script src="/lib/clipboard.min.js"></script>
+
+
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+  });
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<script>
+  $(document).ready(() => {
+    const maraidConfig = {
+      theme: "default",
+      logLevel: 3,
+      flowchart: { curve: "linear" },
+      gantt: { axisFormat: "%m/%d/%Y" },
+      sequence: { actorMargin: 50 },
+    };
+    mermaid.initialize(maraidConfig);
+  });
+</script>
+
+
+
+<script src="/lib/fancybox/fancybox.umd.min.js"></script>
+
+<script>
+  $(document).ready(() => {
+    $('.post-content').each(function(i){
+      $(this).find('img').each(function(){
+        if ($(this).parent().hasClass('fancybox') || $(this).parent().is('a')) return;
+        var alt = this.alt;
+        if (alt) $(this).after('<span class="fancybox-alt">' + alt + '</span>');
+        $(this).wrap('<a class="fancybox-img" href="' + this.src + '" data-fancybox=\"gallery\" data-caption="' + alt + '"></a>')
+      });
+      $(this).find('.fancybox').each(function(){
+        $(this).attr('rel', 'article' + i);
+      });
+    });
+
+    Fancybox.bind('[data-fancybox="gallery"]', {
+        // options
+    })
+  })
+</script>
+
+<!-- tocbot begin -->
+
+<script src="/lib/tocbot/tocbot.min.js"></script>
+
+<script>
+  $(document).ready(() => {
+      tocbot.init({
+        // Where to render the table of contents.
+        tocSelector: '.post-toc',
+        // Where to grab the headings to build the table of contents.
+        contentSelector: '.post-content',
+        // Which headings to grab inside of the contentSelector element.
+        headingSelector: 'h1, h2, h3',
+        // For headings inside relative or absolute positioned containers within content.
+        hasInnerContainers: true,
+    });
+  })
+</script>
+<!-- tocbot end -->
+
+
+  </main>
+  <footer class="flex flex-col h-40 items-center justify-center text-gray-400 text-sm">
+  <!-- busuanzi -->
+  
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!-- Busuanzi Analytics -->
+<div class="flex items-center gap-2">
+  <span>Visitors</span>
+  <span id="busuanzi_value_site_uv"></span>
+  <span>Page Views</span>
+  <span id="busuanzi_value_site_pv"></span>
+</div>
+<!-- End Busuanzi Analytics -->
+
+
+  <!-- copyright -->
+  <div class="flex items-center gap-2">
+    <a target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" style="color: inherit;">CC BY-NC-SA 4.0</a>
+    <span>© 2022</span>
+    <iconify-icon width="18" icon="emojione-monotone:maple-leaf" ></iconify-icon>
+    <a href="https://github.com/xbmlz" target="_blank" rel="noopener noreferrer">xbmlz</a>
+  </div>
+  <!-- powered by -->
+  <div class="flex items-center gap-2">
+    <span>Powered by</span>
+    <a href="https://hexo.io/" target="_blank" rel="noopener noreferrer">Hexo</a>
+    <span>&</span>
+    <a href="https://github.com/xbmlz/hexo-theme-maple" target="_blank" rel="noopener noreferrer">Maple</a>
+  </div>
+
+</footer>
+
+  <div class="back-to-top box-border fixed right-6 z-1024 -bottom-20 rounded py-1 px-1 bg-slate-900 opacity-60 text-white cursor-pointer text-center dark:bg-slate-600">
+    <span class="flex justify-center items-center text-sm">
+      <iconify-icon width="18" icon="ion:arrow-up-c" id="go-top"></iconify-icon>
+      <span id="scrollpercent"><span>0</span> %</span>
+    </span>
+  </div>
+  
+<script src="/js/main.js"></script>
+
+
+  <script>
+    $(document).ready(function () {
+      const mapleCount = "10";
+      const speed = "0.3";
+      const mapleEl = document.getElementById("maple");
+      const maples = Array.from({ length: mapleCount }).map(() => {
+        const maple = document.createElement("div");
+        const scale = Math.random() * 0.5 + 0.5;
+        const offset = Math.random() * 2 - 1;
+        const x = Math.random() * mapleEl.clientWidth;
+        const y = -Math.random() * mapleEl.clientHeight;
+        const duration = 10 / speed;
+        const delay = -duration;
+        maple.className = "maple";
+        maple.style.width = `${24 * scale}px`;
+        maple.style.height = `${24 * scale}px`;
+        maple.style.left = `${x}px`;
+        maple.style.top = `${y}px`;
+        maple.style.setProperty("--maple-fall-offset", offset);
+        maple.style.setProperty("--maple-fall-height", `${Math.abs(y) + mapleEl.clientHeight}px`);
+        maple.style.animation = `fall ${duration}s linear infinite`;
+        maple.style.animationDelay = `${delay}s`;
+        mapleEl.appendChild(maple)
+        return maple
+      })
+    });
+  </script>
+  
+
+
+  <div class="fixed top-0 bottom-0 left-0 right-0 pointer-events-none print:hidden" id="maple"></div>
+</body>
+
+</html>

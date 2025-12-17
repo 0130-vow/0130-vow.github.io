@@ -48,7 +48,7 @@ proxies:
     type: hysteria2
     server: 13.212.157.98
     port: 28161
-    password: 0DNr/kFXuK+PLm4vTqLnaIkD/tcH6o9e5a5O885uX30=
+    password: "0DNr/kFXuK+PLm4vTqLnaIkD/tcH6o9e5a5O885uX30="
     alpn:
       - h3
     sni: www.microsoft.com
@@ -70,7 +70,7 @@ proxies:
     type: hysteria2
     server: 13.212.157.98
     port: 10338
-    password: 56JDVxee31YuK89P4cu7rLz+oQ6u8Qx15CfAFqZIyaE=
+    password: "56JDVxee31YuK89P4cu7rLz+oQ6u8Qx15CfAFqZIyaE="
     alpn:
       - h3
     sni: www.microsoft.com
@@ -83,14 +83,14 @@ proxies:
     server: 13.212.157.98
     port: 11946
     cipher: 2022-blake3-aes-256-gcm
-    password: PcLCCtlV+TEGLLLEIAG3VueIkmFg1auUQlqu8HaqnH1M=
+    password: "PcLCCtlV+TEGLLLEIAG3VueIkmFg1auUQlqu8HaqnH1M"
 
   - name: ss
     type: ss
     server: 13.212.157.98
     port: 27601
     cipher: aes-256-gcm
-    password: CxXNdg4ogNw7u2h4LxRStFbdJ4SymL1-
+    password: "CxXNdg4ogNw7u2h4LxRStFbdJ4SymL1-"
 
   - name: tuic-v5
     type: tuic
@@ -152,7 +152,7 @@ proxies:
     type: hysteria2
     server: 13.212.157.98
     port: 13329
-    password: 0DNr/kFXuK+PLm4vTqLnaIkD/tcH6o9e5a5O885uX30=
+    password: "0DNr/kFXuK+PLm4vTqLnaIkD/tcH6o9e5a5O885uX30="
     alpn:
       - h3
     sni: www.microsoft.com
@@ -174,7 +174,7 @@ proxies:
     type: hysteria2
     server: 13.212.157.98
     port: 37017
-    password: 56JDVxee31YuK89P4cu7rLz+oQ6u8Qx15CfAFqZIyaE=
+    password: "56JDVxee31YuK89P4cu7rLz+oQ6u8Qx15CfAFqZIyaE="
     alpn:
       - h3
     sni: www.microsoft.com
@@ -187,14 +187,14 @@ proxies:
     server: 13.212.157.98
     port: 23936
     cipher: 2022-blake3-aes-256-gcm
-    password: PcLCCtlV+TEGLLLEIAG3VueIkmFg1auUQlqu8HaqnH1M=
+    password: "PcLCCtlV+TEGLLLEIAG3VueIkmFg1auUQlqu8HaqnH1M"
 
   - name: ss-warp
     type: ss
     server: 13.212.157.98
     port: 32069
     cipher: aes-256-gcm
-    password: CxXNdg4ogNw7u2h4LxRStFbdJ4SymL1-
+    password: "CxXNdg4ogNw7u2h4LxRStFbdJ4SymL1-"
 
   - name: tuic-v5-warp
     type: tuic

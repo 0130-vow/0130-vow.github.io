@@ -1,0 +1,209 @@
+proxies:
+
+# ======================
+# 直连节点（9）
+# ======================
+
+  - name: vless-reality
+    type: vless
+    server: 13.212.157.98
+    port: 42081
+    uuid: 325b2efb-5b9e-4e8c-af05-65dba0cebf40
+    flow: xtls-rprx-vision
+    tls: true
+    servername: www.microsoft.com
+    udp: true
+    reality-opts:
+      public-key: FCKNA5A9oMWRtaZu4yvQ_ETtYjkDLo4_FxoswBWmIjY
+      short-id: ec2299c5fc1d84cb
+
+  - name: vless-grpc-reality
+    type: vless
+    server: 13.212.157.98
+    port: 16325
+    uuid: 325b2efb-5b9e-4e8c-af05-65dba0cebf40
+    network: grpc
+    grpc-opts:
+      grpc-service-name: grpc
+    tls: true
+    servername: www.microsoft.com
+    udp: true
+    reality-opts:
+      public-key: FCKNA5A9oMWRtaZu4yvQ_ETtYjkDLo4_FxoswBWmIjY
+      short-id: ec2299c5fc1d84cb
+
+  - name: trojan-reality
+    type: trojan
+    server: 13.212.157.98
+    port: 19669
+    password: 325b2efb-5b9e-4e8c-af05-65dba0cebf40
+    udp: true
+    tls: true
+    servername: www.microsoft.com
+    reality-opts:
+      public-key: FCKNA5A9oMWRtaZu4yvQ_ETtYjkDLo4_FxoswBWmIjY
+      short-id: ec2299c5fc1d84cb
+
+  - name: hysteria2
+    type: hysteria2
+    server: 13.212.157.98
+    port: 28161
+    password: 0DNr/kFXuK+PLm4vTqLnaIkD/tcH6o9e5a5O885uX30=
+    alpn:
+      - h3
+    sni: www.microsoft.com
+    skip-cert-verify: true
+
+  - name: vmess-ws
+    type: vmess
+    server: 13.212.157.98
+    port: 24230
+    uuid: 325b2efb-5b9e-4e8c-af05-65dba0cebf40
+    alterId: 0
+    cipher: auto
+    udp: true
+    network: ws
+    ws-opts:
+      path: /vm
+
+  - name: hysteria2-obfs
+    type: hysteria2
+    server: 13.212.157.98
+    port: 10338
+    password: 56JDVxee31YuK89P4cu7rLz+oQ6u8Qx15CfAFqZIyaE=
+    alpn:
+      - h3
+    sni: www.microsoft.com
+    skip-cert-verify: true
+    obfs: salamander
+    obfs-password: cNkKot5HbFuwgMkRZc5Q+A==
+
+  - name: ss2022
+    type: ss
+    server: 13.212.157.98
+    port: 11946
+    cipher: 2022-blake3-aes-256-gcm
+    password: PcLCCtlV+TEGLLLEIAG3VueIkmFg1auUQlqu8HaqnH1M=
+
+  - name: ss
+    type: ss
+    server: 13.212.157.98
+    port: 27601
+    cipher: aes-256-gcm
+    password: CxXNdg4ogNw7u2h4LxRStFbdJ4SymL1-
+
+  - name: tuic-v5
+    type: tuic
+    server: 13.212.157.98
+    port: 19387
+    uuid: 325b2efb-5b9e-4e8c-af05-65dba0cebf40
+    password: 325b2efb-5b9e-4e8c-af05-65dba0cebf40
+    congestion-controller: bbr
+    alpn:
+      - h3
+    sni: www.microsoft.com
+    skip-cert-verify: true
+
+# ======================
+# WARP 节点（9）
+# ======================
+
+  - name: vless-reality-warp
+    type: vless
+    server: 13.212.157.98
+    port: 41893
+    uuid: 325b2efb-5b9e-4e8c-af05-65dba0cebf40
+    flow: xtls-rprx-vision
+    tls: true
+    servername: www.microsoft.com
+    udp: true
+    reality-opts:
+      public-key: FCKNA5A9oMWRtaZu4yvQ_ETtYjkDLo4_FxoswBWmIjY
+      short-id: ec2299c5fc1d84cb
+
+  - name: vless-grpc-reality-warp
+    type: vless
+    server: 13.212.157.98
+    port: 32940
+    uuid: 325b2efb-5b9e-4e8c-af05-65dba0cebf40
+    network: grpc
+    grpc-opts:
+      grpc-service-name: grpc
+    tls: true
+    servername: www.microsoft.com
+    udp: true
+    reality-opts:
+      public-key: FCKNA5A9oMWRtaZu4yvQ_ETtYjkDLo4_FxoswBWmIjY
+      short-id: ec2299c5fc1d84cb
+
+  - name: trojan-reality-warp
+    type: trojan
+    server: 13.212.157.98
+    port: 32483
+    password: 325b2efb-5b9e-4e8c-af05-65dba0cebf40
+    udp: true
+    tls: true
+    servername: www.microsoft.com
+    reality-opts:
+      public-key: FCKNA5A9oMWRtaZu4yvQ_ETtYjkDLo4_FxoswBWmIjY
+      short-id: ec2299c5fc1d84cb
+
+  - name: hysteria2-warp
+    type: hysteria2
+    server: 13.212.157.98
+    port: 13329
+    password: 0DNr/kFXuK+PLm4vTqLnaIkD/tcH6o9e5a5O885uX30=
+    alpn:
+      - h3
+    sni: www.microsoft.com
+    skip-cert-verify: true
+
+  - name: vmess-ws-warp
+    type: vmess
+    server: 13.212.157.98
+    port: 17557
+    uuid: 325b2efb-5b9e-4e8c-af05-65dba0cebf40
+    alterId: 0
+    cipher: auto
+    udp: true
+    network: ws
+    ws-opts:
+      path: /vm
+
+  - name: hysteria2-obfs-warp
+    type: hysteria2
+    server: 13.212.157.98
+    port: 37017
+    password: 56JDVxee31YuK89P4cu7rLz+oQ6u8Qx15CfAFqZIyaE=
+    alpn:
+      - h3
+    sni: www.microsoft.com
+    skip-cert-verify: true
+    obfs: salamander
+    obfs-password: cNkKot5HbFuwgMkRZc5Q+A==
+
+  - name: ss2022-warp
+    type: ss
+    server: 13.212.157.98
+    port: 23936
+    cipher: 2022-blake3-aes-256-gcm
+    password: PcLCCtlV+TEGLLLEIAG3VueIkmFg1auUQlqu8HaqnH1M=
+
+  - name: ss-warp
+    type: ss
+    server: 13.212.157.98
+    port: 32069
+    cipher: aes-256-gcm
+    password: CxXNdg4ogNw7u2h4LxRStFbdJ4SymL1-
+
+  - name: tuic-v5-warp
+    type: tuic
+    server: 13.212.157.98
+    port: 24840
+    uuid: 325b2efb-5b9e-4e8c-af05-65dba0cebf40
+    password: 325b2efb-5b9e-4e8c-af05-65dba0cebf40
+    congestion-controller: bbr
+    alpn:
+      - h3
+    sni: www.microsoft.com
+    skip-cert-verify: true

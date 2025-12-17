@@ -175,20 +175,6 @@ proxies:
     obfs: salamander
     obfs-password: cNkKot5HbFuwgMkRZc5Q+A==
 
-  - name: ss2022-warp
-    type: ss
-    server: 13.212.157.98
-    port: 23936
-    cipher: 2022-blake3-aes-256-gcm
-    password: "PcLCCtlV+TEGLLLEIAG3VueIkmFg1auUQlqu8HaqnH1M"
-
-  - name: ss-warp
-    type: ss
-    server: 13.212.157.98
-    port: 32069
-    cipher: aes-256-gcm
-    password: "CxXNdg4ogNw7u2h4LxRStFbdJ4SymL1-"
-
   - name: tuic-v5-warp
     type: tuic
     server: 13.212.157.98

@@ -1,9 +1,15 @@
+# Clash Meta 可导入订阅 YAML
+port: 7890
+socks-port: 7891
+allow-lan: true
+mode: Rule
+log-level: info
+external-controller: 127.0.0.1:9090
+
 proxies:
-
-# ======================
-# 直连节点（9）
-# ======================
-
+  # ======================
+  # 直连节点（9）
+  # ======================
   - name: vless-reality
     type: vless
     server: 13.212.157.98
@@ -175,6 +181,13 @@ proxies:
     obfs: salamander
     obfs-password: cNkKot5HbFuwgMkRZc5Q+A==
 
+  - name: ss-warp
+    type: ss
+    server: 13.212.157.98
+    port: 32069
+    cipher: aes-256-gcm
+    password: "CxXNdg4ogNw7u2h4LxRStFbdJ4SymL1-"
+
   - name: tuic-v5-warp
     type: tuic
     server: 13.212.157.98
@@ -186,3 +199,27 @@ proxies:
       - h3
     sni: www.microsoft.com
     skip-cert-verify: true
+
+proxy-groups:
+  - name: All Nodes
+    type: select
+    proxies:
+      - vless-reality
+      - vless-grpc-reality
+      - trojan-reality
+      - hysteria2
+      - vmess-ws
+      - hysteria2-obfs
+      - ss
+      - tuic-v5
+      - vless-reality-warp
+      - vless-grpc-reality-warp
+      - trojan-reality-warp
+      - hysteria2-warp
+      - vmess-ws-warp
+      - hysteria2-obfs-warp
+      - ss-warp
+      - tuic-v5-warp
+
+rules:
+  - MATCH,All Nodes
